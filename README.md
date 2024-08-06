@@ -1,7 +1,7 @@
-# Oar-some Myself
+# Oar-some Myself: eedforward Learning for an Immersive Rowing Exergame using Paremeterized Self-Representatio
 This is a repository for COMPSCI 715 Research Project.
 
-Team Members:
+Team Members:  
 Huiwen Lu, hlu305@aucklanduni.ac.nz  
 Jiayi Yin, jyin573@aucklanduni.ac.nz  
 Frank Yang, jyan605@aucklanduni.ac.nz  
