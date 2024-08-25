@@ -20,11 +20,17 @@ public class 计时圈 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float elapsed = Time.time - countStart;
         if (Time.time - countStart >= time)
         {
             return;
         }
+        float remainingTime = time - elapsed;
         countdown.fillAmount = 1f - (Time.time - countStart) / time;
         CountdowndText.text = ((int)(time - (Time.time - countStart))).ToString()+" second";
+        if(remainingTime <= time * 0.1f)
+        {
+            countdown.color = Color.yellow;
+        }
     }
 }
