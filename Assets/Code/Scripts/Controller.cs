@@ -24,7 +24,6 @@ public class Controller : MonoBehaviour
     public void ResetPlayer()
     {
         selectedPlayer.GetComponent<ActorObject>().Reset();
-
     }
 
  }

@@ -19,6 +19,7 @@ public class PlayerRecorder : MonoBehaviour
             keyPressed = true;
         }
     }
+
     public void GetInputs()
     {
 
