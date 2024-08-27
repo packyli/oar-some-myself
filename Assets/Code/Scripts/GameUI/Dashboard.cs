@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class 仪表盘 : MonoBehaviour
+public class Dashboard : MonoBehaviour
 {
     public uint torsioninput= 800;
     public uint freqinput = 50;

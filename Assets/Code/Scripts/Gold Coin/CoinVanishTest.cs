@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin消失test : MonoBehaviour
+public class CoinVanishTest : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class GoldCoinFloating : MonoBehaviour
 {
     public float amplitude = 0.5f;  // 浮动的幅度
     public float frequency = 100f;    // 浮动的频率

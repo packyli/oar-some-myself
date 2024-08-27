@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coinœ˚ ß : MonoBehaviour
+public class CoinVanish : MonoBehaviour
 {
     // Start is called before the first frame update
     
