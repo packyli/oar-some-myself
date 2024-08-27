@@ -1,60 +1,103 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityJIS;
-using Timer = UnityJIS.Timer;
 
 public class Engine : MonoBehaviour
 {
     public bool IsStarted { get; private set; }
     public bool GameOver { get; private set; }
     public Text Text_time;
+    public Text Text_round;
     public Image Image_gameOver;
-    public Button button_reStart;
+    public Button button_nextRound;
     private int timeCount = 0;
     public int countToWhen = 120;
-    // Start is called before the first frame update
+    private int currentRound = 1;
+    private int maxRounds = 5;
+
+    private TimerEvent timer;
 
     private void Awake()
     {
         IsStarted = false;
         GameOver = false;
         Timer.Init();
-        button_reStart.onClick.AddListener(ReStart);
+        button_nextRound.onClick.AddListener(NextRound);
     }
 
     private void ReStart()
     {
+        currentRound = 1;
         SceneManager.LoadScene("SampleScene");
     }
 
     void Start()
     {
-        
+        // 游戏开始时不自动启动，而是等待玩家通过PlayerController按空格键来启动游戏
     }
-    private TimerEvent timer;
-   public void StartGame()
-    {
-        timer= Timer.CallBackOfIntervalTimer(1f,(object[] objs) => {
-            timeCount++;
 
-            Text_time.text = $"Countdown{(countToWhen - timeCount).ToString()}";
+    public void StartGame()
+    {
+        if (!IsStarted) // 确保游戏只启动一次
+        {
+            IsStarted = true;
+            StartRound();
+        }
+    }
+
+    private void StartRound()
+    {
+        timeCount = 0;
+        Text_round.text = $"Round {currentRound}";
+        Image_gameOver.gameObject.SetActive(false);
+
+        timer = Timer.CallBackOfIntervalTimer(1f, (object[] objs) => {
+            timeCount++;
+            Text_time.text = $"Countdown: {(countToWhen - timeCount).ToString()}";
+
             if (countToWhen - timeCount == 0)
             {
                 Timer.DestroyTimer("dtime");
                 Image_gameOver.gameObject.SetActive(true);
+                if (currentRound < maxRounds)
+                {
+                    // Show the next round button after a delay
+                    Invoke("ShowNextRoundButton", 5f);
+                }
+                else
+                {
+                    // Automatically restart to round 1 after last round
+                    Invoke("ReStart", 5f);
+                }
             }
         });
+
         timer.m_timerName = "dtime";
-        IsStarted = true;
     }
 
-    // Update is called once per frame
+    private void ShowNextRoundButton()
+    {
+        button_nextRound.gameObject.SetActive(true);
+    }
+
+    private void NextRound()
+    {
+        if (currentRound < maxRounds)
+        {
+            currentRound++;
+            StartRound();
+            button_nextRound.gameObject.SetActive(false);
+        }
+        else
+        {
+            ReStart();
+        }
+    }
+
     void Update()
     {
         if (s_OnApplicationUpdate != null)

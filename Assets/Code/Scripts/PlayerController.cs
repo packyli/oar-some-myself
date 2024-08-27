@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
 using static System.Collections.Specialized.BitVector32;
 
 public class PlayerController : MonoBehaviour
@@ -67,11 +74,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-           
+
             if (rowingMachine.WaitingRow)
             {
                 _animator.SetTrigger("IsRow");
-                _animator.speed = rowingMachine.CurrentForce/ standardForceByanimSpeed;
+                _animator.speed = rowingMachine.CurrentForce / standardForceByanimSpeed;
                 Debug.Log(_animator.speed);
                 rowingMachine.WaitingRow = false;
 
@@ -90,21 +97,21 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-               // _animator.SetBool("IsRow", false);
+                // _animator.SetBool("IsRow", false);
             }
 
             // Don't move backwards
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
-           
-           // currentForce += -dragForce * Math.Abs(rb.velocity.x);
+
+            // currentForce += -dragForce * Math.Abs(rb.velocity.x);
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
-            Text_pace.text= rb.velocity.x.ToString("f2");
-            Text_dis.text= (transform.position.x- startingPosition.x).ToString("f2");
-            if ((transform.position .x- lastPlayerMoveXPos.x) > 600)
+            Text_pace.text = rb.velocity.x.ToString("f2");
+            Text_dis.text = (transform.position.x - startingPosition.x).ToString("f2");
+            if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
             {
                 lastPlayerMoveXPos = transform.position;
                 //÷¥––µÿ∞Â“∆Œª
-                water.GetChild(0).transform.position = water.GetChild(1).transform.position+new Vector3(499,0,0);
+                water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
                 water.GetChild(0).SetAsLastSibling();
             }
         }
