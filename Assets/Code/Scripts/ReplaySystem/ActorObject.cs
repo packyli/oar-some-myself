@@ -112,7 +112,7 @@ public class ActorObject : MonoBehaviour
                 PlayerInputStruct recordedInputs = inputRec.GetRecordedInputs(playbackTimer);
                 if (recordedInputs.buttonPressed == true)
                 {
-                    Debug.Log("At" + playbackTimer + "the value of the button press is" + recordedInputs.buttonPressed);
+                    Debug.Log("At " + playbackTimer + " the value of the button press is " + recordedInputs.buttonPressed);
                 }
                 objectController.GivenInputs(recordedInputs);
                 objectController.Move();

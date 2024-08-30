@@ -25,7 +25,7 @@ public class PlayerRecorder : MonoBehaviour
 
     public void ListenForKeyPresses()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("w"))
         {
             keyPressed = true;
         }
@@ -33,14 +33,8 @@ public class PlayerRecorder : MonoBehaviour
 
     public void GetInputs()
     {
-
-        //horizontalValue = Input.GetAxis("Horizontal");
-        //verticalValue = Input.GetAxis("Vertical");
-        
         rowPaceValue = 35; // Temp value for testing
         rowPowerValue = rowingMachineCtlr.CurrentForce;
-        //Debug.Log(830);
-        //Debug.Log("rowPowerValue: " + rowPowerValue);
 
         rowDistanceValue = rowingMachineCtlr.DistanceTravelled;
     }
@@ -53,8 +47,6 @@ public class PlayerRecorder : MonoBehaviour
 
     public void ResetInput()
     {
-        //horizontalValue = 0;
-        //verticalValue = 0;
         rowPaceValue = 0;
         rowPowerValue = 0;
         rowDistanceValue = 0;

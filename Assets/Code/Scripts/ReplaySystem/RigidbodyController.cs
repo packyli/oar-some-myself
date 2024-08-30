@@ -52,52 +52,31 @@ public class RigidbodyController : MonoBehaviour
         if (buttonValue == true)
         {
             Debug.Log("The button press has been received, do additional functionality here");
-        }
+            
+            _animator.SetTrigger("IsRow");
+            _animator.speed = currentForce / standardForceByanimSpeed;
+            Debug.Log(1990678);
+            Debug.Log(_animator.speed);
 
-        if (time <= 0 && engine.IsStarted)
-        {
-            LogData();
-            time = timeBetweenlogging;
-        }
+            rowingMachine.WaitingRow = false;
 
-        if (!engine.IsStarted)
-        {
-            // Reset game variables when space pressed at start of game
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (rb.velocity.y < 0)
             {
-                //_startPanel.gameObject.SetActive(false);
-                engine.StartGame();
+                rb.velocity = new Vector3(rb.velocity.x, 0, 0);
             }
-        }
-        else
-        {
-            if (rowingMachine.WaitingRow)
+
+            rb.AddForce(Vector3.right * currentForce * forceMultiplier / maxPowerOutput, ForceMode.Impulse);
+
+            if (!rowingMachine.DEBUG)
             {
-                _animator.SetTrigger("IsRow");
-                _animator.speed = currentForce / standardForceByanimSpeed;
-                //Debug.Log(_animator.speed);
-                rowingMachine.WaitingRow = false;
-
-                if (rb.velocity.y < 0)
-                {
-                    rb.velocity = new Vector3(rb.velocity.x, 0, 0);
-                }
-                
-                rb.AddForce(Vector3.right * currentForce * forceMultiplier / maxPowerOutput, ForceMode.Impulse);
-
-                if (!rowingMachine.DEBUG)
-                {
-                    Debug.Log("Current proportionate force: " + currentForce * forceMultiplier / maxPowerOutput);
-                }
-                //engine.AddToCurrentScore(50);
+                Debug.Log("Current proportionate force: " + currentForce * forceMultiplier / maxPowerOutput);
             }
 
             // Don't move backwards
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
-            //Text_pace.text = rb.velocity.x.ToString("f2");
-            //Text_dis.text = (transform.position.x - startingPosition.x).ToString("f2");
+
             if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
             {
                 lastPlayerMoveXPos = transform.position;
@@ -105,12 +84,6 @@ public class RigidbodyController : MonoBehaviour
                 water.GetChild(0).SetAsLastSibling();
             }
         }
-
-    }
-
-    void LogData()
-    {
-        
     }
 
     public void GivenInputs(PlayerInputStruct Inputs)
@@ -133,62 +106,3 @@ public class RigidbodyController : MonoBehaviour
         rb.freezeRotation = true;
     }
 }
-
-//[Serializable]
-//public class RPM
-//{
-//    public string time;
-//    public bool intervalType;
-//    public double rpm;
-
-//    public RPM(string time, double rpm, bool interval)
-//    {
-//        this.time = time;
-//        this.rpm = rpm;
-//        intervalType = interval;
-//    }
-
-//    public override string ToString()
-//    {
-//        return time + "," + rpm + "," + intervalType;
-//    }
-//}
-
-
-//[Serializable]
-//public class Power
-//{
-//    public String time;
-//    public bool intervalType;
-//    public double power;
-
-//    public Power(String time, double data, bool interval)
-//    {
-//        this.time = time;
-//        power = data;
-//        intervalType = interval;
-//    }
-
-//    public override string ToString()
-//    {
-//        return time + "," + power + "," + intervalType;
-//    }
-//}
-
-//[Serializable]
-//public class Distance
-//{
-//    public String time;
-//    public double distance;
-
-//    public Distance(String time, double data)
-//    {
-//        this.time = time;
-//        distance = data;
-//    }
-
-//    public override string ToString()
-//    {
-//        return time + "," + distance;
-//    }
-//}
