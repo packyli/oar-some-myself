@@ -4,13 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
 using static System.Collections.Specialized.BitVector32;
 
 public class PlayerController : MonoBehaviour
@@ -79,14 +72,14 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.SetTrigger("IsRow");
                 _animator.speed = rowingMachine.CurrentForce / standardForceByanimSpeed;
-                Debug.Log(_animator.speed);
+                //Debug.Log(_animator.speed);
                 rowingMachine.WaitingRow = false;
 
                 if (rb.velocity.y < 0)
                 {
                     rb.velocity = new Vector3(rb.velocity.x, 0, 0);
                 }
-                currentForce += (Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput).x;
+                //currentForce += (Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput).x;
                 rb.AddForce(Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput, ForceMode.Impulse);
 
                 if (!rowingMachine.DEBUG)
@@ -110,7 +103,7 @@ public class PlayerController : MonoBehaviour
             if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
             {
                 lastPlayerMoveXPos = transform.position;
-                //ִ�еذ���λ
+                //ִ�еذ���λ
                 water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
                 water.GetChild(0).SetAsLastSibling();
             }

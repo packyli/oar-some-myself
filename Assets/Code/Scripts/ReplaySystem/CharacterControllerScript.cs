@@ -53,15 +53,15 @@ public class CharacterControllerScript : MonoBehaviour
 
     public void GivenInputs(PlayerInputStruct inputs)
     {
-        horizontalValue = inputs.horizontalInput;
-        verticalValue = inputs.verticalInput;
+        //horizontalValue = inputs.horizontalInput;
+        //verticalValue = inputs.verticalInput;
         buttonValue = inputs.buttonPressed;
     }
 
     public void ResetInputs()
     {
-        horizontalValue = 0;
-        verticalValue = 0;
+        //horizontalValue = 0;
+        //verticalValue = 0;
     }
 
     public void Reset()

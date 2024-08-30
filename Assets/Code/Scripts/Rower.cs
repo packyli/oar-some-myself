@@ -88,13 +88,15 @@ public class Rower : MonoBehaviour
                 // RowPower = (uint)Random.Range(50, 70);
                 if (RowPower <= uint.Parse(InputField_power.text))
                 {
-                    Debug.Log(11);
+                    //Debug.Log(11);
                     RowPower = uint.Parse(InputField_power.text) + 1;
+                    //Debug.Log("RowPower: " + RowPower);
                 }
                 else
                 {
                     RowPower = uint.Parse(InputField_power.text) - 1;
-                    Debug.Log(121);
+                    //Debug.Log(121);
+                    //Debug.Log("RowPower: " + RowPower);
                 }
 
                 //   RowPower = uint.Parse(InputField_power.text)+ (uint)new System.Random().Next(1,2);

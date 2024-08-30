@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InputRecorder : MonoBehaviour
 {
-    private PlayerRecorder playerInputs;
     private Dictionary<float, PlayerInputStruct> playerInputRecord;
       
     void Start()
@@ -18,7 +17,7 @@ public class InputRecorder : MonoBehaviour
     //The timeStamp is the key
     //The inputStruct (inputs) is the value of the key
     //This function is used by the actorObject script as the dictionary is private
-    public void AddToDictionary(float time,PlayerInputStruct inputs)
+    public void AddToDictionary(float time, PlayerInputStruct inputs)
     {
         playerInputRecord.Add(time, inputs);
     }

@@ -7,10 +7,21 @@ public class PlayerRecorder : MonoBehaviour
 
     //This class should include all the potential inpuits that the player makes
     //These two are the movement inputs in both horizontal and vertical movement
-    private float horizontalValue;
-    private float verticalValue;
+    //private float horizontalValue;
+    //private float verticalValue;
+    
+    private uint rowPaceValue;
+    private uint rowPowerValue;
+    private uint rowDistanceValue;
+
     private bool keyPressed;
 
+    private RowingMachineController rowingMachineCtlr;
+
+    private void Awake()
+    {
+        rowingMachineCtlr = GameObject.FindObjectOfType<RowingMachineController>();
+    }
 
     public void ListenForKeyPresses()
     {
@@ -23,20 +34,30 @@ public class PlayerRecorder : MonoBehaviour
     public void GetInputs()
     {
 
-        horizontalValue = Input.GetAxis("Horizontal");
-        verticalValue = Input.GetAxis("Vertical");
+        //horizontalValue = Input.GetAxis("Horizontal");
+        //verticalValue = Input.GetAxis("Vertical");
+        
+        rowPaceValue = 35; // Temp value for testing
+        rowPowerValue = rowingMachineCtlr.CurrentForce;
+        //Debug.Log(830);
+        //Debug.Log("rowPowerValue: " + rowPowerValue);
+
+        rowDistanceValue = rowingMachineCtlr.DistanceTravelled;
     }
 
     public PlayerInputStruct GetInputStruct()
     {
-        PlayerInputStruct playerInputs = new PlayerInputStruct(horizontalValue, verticalValue, keyPressed);
+        PlayerInputStruct playerInputs = new PlayerInputStruct(rowPaceValue, rowPowerValue, rowDistanceValue, keyPressed);
         return playerInputs;
     }
 
     public void ResetInput()
     {
-        horizontalValue = 0;
-        verticalValue = 0;
+        //horizontalValue = 0;
+        //verticalValue = 0;
+        rowPaceValue = 0;
+        rowPowerValue = 0;
+        rowDistanceValue = 0;
         keyPressed = false;
     }
 

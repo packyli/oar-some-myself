@@ -19,7 +19,7 @@ public class ActorObject : MonoBehaviour
     private PlayerRecorder playerInput;
 
     //2
-    private CharacterControllerScript objectController;
+    private RigidbodyController objectController;
 
     //3
     private InputRecorder inputRec;
@@ -46,8 +46,27 @@ public class ActorObject : MonoBehaviour
     {
         //initialize the variables
         playerInput = GetComponent<PlayerRecorder>();
-        objectController = GetComponent<CharacterControllerScript>();
+        objectController = GetComponent<RigidbodyController>();
         inputRec = GetComponent<InputRecorder>();
+
+        if (playerInput == null)
+        {
+            Debug.LogError("PlayerRecorder is missing from this GameObject. Please attach the PlayerRecorder component.");
+            return;
+        }
+
+        if (objectController == null)
+        {
+            Debug.LogError("RigidbodyController is missing from this GameObject. Please attach the RigidbodyController component.");
+            return;
+        }
+
+        if (inputRec == null)
+        {
+            Debug.LogError("InputRecorder is missing from this GameObject. Please attach the InputRecorder component.");
+            return;
+        }
+
         //Player starts as idle until their clicked on, prob change this later
         currentState = State.Reset;
         timer = 0;
@@ -62,19 +81,19 @@ public class ActorObject : MonoBehaviour
     {
         playerInput.ListenForKeyPresses();
     }
+
     void FixedUpdate()
     {
-
         if ((int)currentState == 0)
         {
-
             timer = timer + Time.deltaTime;
             timerText.text = timer.ToString("F2");
             playerInput.GetInputs();
             PlayerInputStruct userInput = playerInput.GetInputStruct();
+
             inputRec.AddToDictionary(timer, userInput);
             objectController.GivenInputs(userInput);
-            objectController.move();
+            objectController.Move();
             playerInput.ResetInput();
         }
 
@@ -96,7 +115,7 @@ public class ActorObject : MonoBehaviour
                     Debug.Log("At" + playbackTimer + "the value of the button press is" + recordedInputs.buttonPressed);
                 }
                 objectController.GivenInputs(recordedInputs);
-                objectController.move();
+                objectController.Move();
             }
 
         }
