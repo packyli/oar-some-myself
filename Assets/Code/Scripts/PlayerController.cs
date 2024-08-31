@@ -4,13 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
 using static System.Collections.Specialized.BitVector32;
 
 public class PlayerController : MonoBehaviour
@@ -110,7 +103,6 @@ public class PlayerController : MonoBehaviour
             if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
             {
                 lastPlayerMoveXPos = transform.position;
-                //÷¥––µÿ∞Â“∆Œª
                 water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
                 water.GetChild(0).SetAsLastSibling();
             }
@@ -181,6 +173,7 @@ public class Power
         return time + "," + power + "," + intervalType;
     }
 }
+
 [Serializable]
 public class Distance
 {

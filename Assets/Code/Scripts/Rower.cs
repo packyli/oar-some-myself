@@ -16,14 +16,14 @@ public class Rower : MonoBehaviour
         public uint Horizontal;
     }
 
-    //[DllImport("C2API", EntryPoint = "InitRower")]
-    //public static extern int InitRower();      // Returns: -1: Init failed, -2: No connected rower detected, >0: number of initialised rowers
+    [DllImport("C2API", EntryPoint = "InitRower")]
+    public static extern int InitRower();      // Returns: -1: Init failed, -2: No connected rower detected, >0: number of initialised rowers
 
-    //[DllImport("C2API", EntryPoint = "GetRowData")]
-    //public static extern void GetRowData(ref RowData rowData);
+    [DllImport("C2API", EntryPoint = "GetRowData")]
+    public static extern void GetRowData(ref RowData rowData);
 
-    //[DllImport("C2API", EntryPoint = "CloseRower")]
-    //public static extern int CloseRower();
+    [DllImport("C2API", EntryPoint = "CloseRower")]
+    public static extern int CloseRower();
 
     public uint RowPace { get; private set; }
     public uint RowPower { get; private set; }
@@ -43,7 +43,7 @@ public class Rower : MonoBehaviour
         RowPace = 0;
         RowPower = 0;
         RowDistance = 0;
-        //numRowers = InitRower();
+        numRowers = InitRower();
         switch (numRowers)
         {
             case -1:
@@ -66,7 +66,7 @@ public class Rower : MonoBehaviour
                 while (true)
                 {
                     RowData rowData = new RowData();
-                    //GetRowData(ref rowData);
+                    GetRowData(ref rowData);
                     RowPace = rowData.Pace;
                     RowPower = rowData.Power;
                     RowDistance = rowData.Horizontal;
@@ -88,13 +88,11 @@ public class Rower : MonoBehaviour
                 // RowPower = (uint)Random.Range(50, 70);
                 if (RowPower <= uint.Parse(InputField_power.text))
                 {
-                    Debug.Log(11);
                     RowPower = uint.Parse(InputField_power.text) + 1;
                 }
                 else
                 {
                     RowPower = uint.Parse(InputField_power.text) - 1;
-                    Debug.Log(121);
                 }
 
                 //   RowPower = uint.Parse(InputField_power.text)+ (uint)new System.Random().Next(1,2);
@@ -111,7 +109,7 @@ public class Rower : MonoBehaviour
     {
         if (numRowers > 0)
         {
-            //CloseRower();
+            CloseRower();
         }
     }
 }
