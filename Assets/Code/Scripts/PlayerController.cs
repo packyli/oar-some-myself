@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 {
                     rb.velocity = new Vector3(rb.velocity.x, 0, 0);
                 }
-                currentForce += (Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput).x;
+                //currentForce += (Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput).x;
                 rb.AddForce(Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput, ForceMode.Impulse);
 
                 if (!rowingMachine.DEBUG)
@@ -88,15 +88,10 @@ public class PlayerController : MonoBehaviour
                 }
                 //engine.AddToCurrentScore(50);
             }
-            else
-            {
-                // _animator.SetBool("IsRow", false);
-            }
 
             // Don't move backwards
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
-            // currentForce += -dragForce * Math.Abs(rb.velocity.x);
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
             Text_pace.text = rb.velocity.x.ToString("f2");
             Text_dis.text = (transform.position.x - startingPosition.x).ToString("f2");

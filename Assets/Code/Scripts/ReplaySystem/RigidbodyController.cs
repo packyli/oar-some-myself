@@ -51,14 +51,14 @@ public class RigidbodyController : MonoBehaviour
 
         if (buttonValue == true)
         {
-            Debug.Log("The button press has been received, do additional functionality here");
+            //Debug.Log("The button press has been received, do additional functionality here");
             
             _animator.SetTrigger("IsRow");
             _animator.speed = currentForce / standardForceByanimSpeed;
             Debug.Log(1990678);
             Debug.Log(_animator.speed);
 
-            rowingMachine.WaitingRow = false;
+            //rowingMachine.WaitingRow = false;
 
             if (rb.velocity.y < 0)
             {
@@ -75,8 +75,11 @@ public class RigidbodyController : MonoBehaviour
             // Don't move backwards
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
+            // Apply drag force to gradually slow the object down
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
 
+            // Manage the movement of a player and update the position of water elements in the game,
+            // to create the illusion of an infinite or continuously scrolling water surface.
             if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
             {
                 lastPlayerMoveXPos = transform.position;

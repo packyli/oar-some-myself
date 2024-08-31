@@ -92,8 +92,6 @@ public class ActorObject : MonoBehaviour
             PlayerInputStruct userInput = playerInput.GetInputStruct();
 
             inputRec.AddToDictionary(timer, userInput);
-            objectController.GivenInputs(userInput);
-            objectController.Move();
             playerInput.ResetInput();
         }
 
