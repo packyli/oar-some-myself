@@ -59,7 +59,7 @@ public class Engine : MonoBehaviour
 
         timer = Timer.CallBackOfIntervalTimer(1f, (object[] objs) => {
             timeCount++;
-            Text_time.text = $"Countdown: {(countToWhen - timeCount).ToString()}";
+            Text_time.text = $"Remaining Time: {(countToWhen - timeCount).ToString()}";
 
             if (countToWhen - timeCount == 0)
             {
