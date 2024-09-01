@@ -14,11 +14,11 @@ public class Engine : MonoBehaviour
     public Text Text_round;
     public Image Image_gameOver;
     public Button button_nextRound;
-    private int timeCount = 0;
     public int countToWhen = 120;
-    private int currentRound = 1;
-    private int maxRounds = 5;
+    public int currentRound = 1;
 
+    private int timeCount = 0;
+    private int maxRounds = 5;
     private TimerEvent timer;
 
     private void Awake()
