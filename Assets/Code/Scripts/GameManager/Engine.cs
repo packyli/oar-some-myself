@@ -14,9 +14,10 @@ public class Engine : MonoBehaviour
     public Text Text_round;
     public Image Image_gameOver;
     public Button button_nextRound;
-    public int countToWhen = 120;
     public int currentRound = 1;
 
+    private Text Text_CountToWhen;
+    private int countToWhen = 120;
     private int timeCount = 0;
     private int maxRounds = 5;
     private TimerEvent timer;
@@ -57,9 +58,18 @@ public class Engine : MonoBehaviour
         Text_round.text = $"Round {currentRound}";
         Image_gameOver.gameObject.SetActive(false);
 
+        if (int.TryParse(Text_time.text, out countToWhen))
+        {
+            Debug.Log("Conversion successful, countToWhen: " + countToWhen);
+        }
+        else
+        {
+            Debug.LogError("Conversion failed, could not convert text to integer.");
+        }
+
         timer = Timer.CallBackOfIntervalTimer(1f, (object[] objs) => {
             timeCount++;
-            Text_time.text = $"Remaining Time: {(countToWhen - timeCount).ToString()}";
+            Text_time.text = $"{(countToWhen - timeCount).ToString()}";
 
             if (countToWhen - timeCount == 0)
             {
@@ -91,6 +101,7 @@ public class Engine : MonoBehaviour
         if (currentRound < maxRounds)
         {
             currentRound++;
+            Text_time.text = countToWhen.ToString();
             StartRound();
             button_nextRound.gameObject.SetActive(false);
         }

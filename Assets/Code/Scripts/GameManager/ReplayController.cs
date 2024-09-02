@@ -8,21 +8,21 @@ public class ReplayController : MonoBehaviour
     void OnEnable()
     {
         // Subscribe to the event
-        GameStartsDisabler.OnGameStartsElementEnabled += HandleGameStartsElementEnabled;
+        GameEndsEnabler.OnGameEndsElementEnabled += HandleGameEndsElementEnabled;
         GameStartsDisabler.OnGameStartsElementDisabled += HandleGameStartsElementDisabled;
     }
 
     void OnDisable()
     {
         // Unsubscribe from the event to avoid memory leaks
-        GameStartsDisabler.OnGameStartsElementEnabled -= HandleGameStartsElementEnabled;
+        GameEndsEnabler.OnGameEndsElementEnabled -= HandleGameEndsElementEnabled;
         GameStartsDisabler.OnGameStartsElementDisabled -= HandleGameStartsElementDisabled;
     }
 
-    void HandleGameStartsElementEnabled()
+    void HandleGameEndsElementEnabled()
     {
-        // Code to execute when the GameStarts UI element is enabled
-        Debug.Log("The GameStarts UI element was enabled!");
+        // Code to execute when the GameEnds UI element is enabled
+        Debug.Log("The GameEnds UI element was enabled!");
         ResetPlayer();
     }
 

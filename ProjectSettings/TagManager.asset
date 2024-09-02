@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Animal
   - GameStarts
+  - GameEnds
   layers:
   - Default
   - TransparentFX
