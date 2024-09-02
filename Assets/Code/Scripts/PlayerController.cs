@@ -9,26 +9,26 @@ using static System.Collections.Specialized.BitVector32;
 public class PlayerController : MonoBehaviour
 {
     public Image _startPanel;
-    private Rigidbody rb;
-    private Engine engine;
-    private const float timeBetweenlogging = 1f;
-    private float time;
-    private Vector3 startingPosition;
-    private Quaternion startingRotation;
-
     public float maxPowerOutput;
     public float forceMultiplier;
     public float dragForce;
     public Animator _animator;
     public float currentForce;
     public float standardForceByanimSpeed = 50;
-    private Vector3 lastPlayerMoveXPos;
     public Transform water;
     // Start is called before the first frame update
     public Text Text_pace;
     public Text Text_dis;
 
+    private Rigidbody rb;
+    private Engine engine;
+    private const float timeBetweenlogging = 1f;
+    private float time;
+    private Vector3 startingPosition;
+    private Quaternion startingRotation;
+    private Vector3 lastPlayerMoveXPos;
     private RowingMachineController rowingMachine;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.SetTrigger("IsRow");
                 _animator.speed = rowingMachine.CurrentForce / standardForceByanimSpeed;
+                Debug.Log("Rowing Player's current animator speed: ");
                 Debug.Log(_animator.speed);
                 rowingMachine.WaitingRow = false;
 

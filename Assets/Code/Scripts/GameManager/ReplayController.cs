@@ -1,45 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class ReplayController : MonoBehaviour
 {
     public GameObject selectedPlayer;
 
-    private Engine engine;
-
-    private void Awake()
+    void OnEnable()
     {
-        engine = GetComponent<Engine>();
+        // Subscribe to the event
+        GameEndsEnabler.OnGameEndsElementEnabled += HandleGameEndsElementEnabled;
+        GameStartsDisabler.OnGameStartsElementDisabled += HandleGameStartsElementDisabled;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void OnDisable()
     {
-        if (!engine.IsStarted)
-        {
-            ResetPlayer();
-        }
-        else if (engine.IsStarted && engine.currentRound == 1)
-        {
-            StartRecording();
-        }
-        else if (engine.IsStarted && engine.currentRound > 1)
-        {
-            StartPlayback();
-        }
+        // Unsubscribe from the event to avoid memory leaks
+        GameEndsEnabler.OnGameEndsElementEnabled -= HandleGameEndsElementEnabled;
+        GameStartsDisabler.OnGameStartsElementDisabled -= HandleGameStartsElementDisabled;
     }
 
-    // Update is called once per frame
-    void Update()
+    void HandleGameEndsElementEnabled()
     {
-        
+        // Code to execute when the GameEnds UI element is enabled
+        Debug.Log("The GameEnds UI element was enabled!");
+        ResetPlayer();
     }
 
+    void HandleGameStartsElementDisabled()
+    {
+        // Code to execute when the GameStarts UI element is disabled
+        Debug.Log("The GameStarts UI element was disabled!");
+        StartRecording();
+    }
 
     public void StartRecording()
     {
-
         ResetPlayer();
         selectedPlayer.GetComponent<ActorObject>().Recording();
     }

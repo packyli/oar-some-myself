@@ -51,11 +51,9 @@ public class RigidbodyController : MonoBehaviour
 
         if (buttonValue == true)
         {
-            //Debug.Log("The button press has been received, do additional functionality here");
-            
             _animator.SetTrigger("IsRow");
             _animator.speed = currentForce / standardForceByanimSpeed;
-            Debug.Log(1990678);
+            Debug.Log("Ghost Rowing Player's current animator speed: ");
             Debug.Log(_animator.speed);
 
             //rowingMachine.WaitingRow = false;
