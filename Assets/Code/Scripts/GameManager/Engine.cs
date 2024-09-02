@@ -21,6 +21,7 @@ public class Engine : MonoBehaviour
     private int timeCount = 0;
     private int maxRounds = 5;
     private TimerEvent timer;
+    private PlayerController playerController;
 
     private void Awake()
     {
@@ -41,6 +42,8 @@ public class Engine : MonoBehaviour
         // The game does not start automatically at the beginning of the game,
         // but waits for the player to start the game by pressing the spacebar
         // via the PlayerController
+        playerController = GameObject.FindObjectOfType<PlayerController>();
+
     }
 
     public void StartGame()
@@ -57,6 +60,7 @@ public class Engine : MonoBehaviour
         timeCount = 0;
         Text_round.text = $"Round {currentRound}";
         Image_gameOver.gameObject.SetActive(false);
+        IsStarted = true;
 
         if (int.TryParse(Text_time.text, out countToWhen))
         {
@@ -75,6 +79,8 @@ public class Engine : MonoBehaviour
             {
                 Timer.DestroyTimer("dtime");
                 Image_gameOver.gameObject.SetActive(true);
+                playerController.PlayerReset();
+                IsStarted = false;
                 if (currentRound < maxRounds)
                 {
                     // Show the next round button after a delay
