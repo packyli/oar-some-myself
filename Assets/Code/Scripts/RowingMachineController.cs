@@ -78,6 +78,7 @@ public class RowingMachineController : MonoBehaviour
     /// <param name="pace">The rower's pace, in s/km.</param>
     void Row(uint distance, uint power, uint pace)
     {
+        Debug.Log("row 方法被执行");
         rowCount++;
         float deltaT = Time.time - lastRowTime;
         if (rowCount <= rowTimes.Length)

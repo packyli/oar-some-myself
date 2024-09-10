@@ -57,6 +57,7 @@ public class Rower : MonoBehaviour
                 break;
             default:
                 Debug.Log("Number of rowers: " + numRowers);
+                DEBUG = false;
                 break;
         }
         if (numRowers > 0 && !DEBUG)
@@ -70,7 +71,8 @@ public class Rower : MonoBehaviour
                     RowPace = rowData.Pace;
                     RowPower = rowData.Power;
                     RowDistance = rowData.Horizontal;
-                    Thread.Sleep(100);
+                    Debug.Log("Row Pace: " + RowPace + ", Row Power: " + RowPower + ", Row Distance: " + RowDistance);
+                    Thread.Sleep(1000);
                 }
             })).Start();
         }
