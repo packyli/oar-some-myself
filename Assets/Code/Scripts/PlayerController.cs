@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         else
         {
 
-            if (rowingMachine.WaitingRow)
+            if (rowingMachine.WaitingRow && engine.isRoundStarted)
             {
                 _animator.SetTrigger("IsRow");
                 _animator.speed = rowingMachine.CurrentForce / standardForceByanimSpeed;
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
         //logger.Log();
     }
 
-    void PlayerReset()
+    public void PlayerReset()
     {
         rb.velocity = Vector3.zero;
         transform.position = startingPosition;

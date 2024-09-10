@@ -15,19 +15,24 @@ public class Engine : MonoBehaviour
     public Image Image_gameOver;
     public Button button_nextRound;
     public int currentRound = 1;
+    public bool isRoundStarted;
 
     private Text Text_CountToWhen;
     private int countToWhen = 120;
     private int timeCount = 0;
     private int maxRounds = 5;
     private TimerEvent timer;
+    private PlayerController playerCtrlr;
+    
 
     private void Awake()
     {
         IsStarted = false;
+        isRoundStarted = false;
         GameOver = false;
         Timer.Init();
         button_nextRound.onClick.AddListener(NextRound);
+        playerCtrlr = GameObject.FindObjectOfType<PlayerController>();
     }
 
     private void ReStart()
@@ -54,6 +59,7 @@ public class Engine : MonoBehaviour
 
     private void StartRound()
     {
+        isRoundStarted = true;
         timeCount = 0;
         Text_round.text = $"Round {currentRound}";
         Image_gameOver.gameObject.SetActive(false);
@@ -94,6 +100,8 @@ public class Engine : MonoBehaviour
     private void ShowNextRoundButton()
     {
         button_nextRound.gameObject.SetActive(true);
+        playerCtrlr.PlayerReset();
+        isRoundStarted = false;
     }
 
     private void NextRound()

@@ -25,9 +25,20 @@ public class PlayerRecorder : MonoBehaviour
 
     public void ListenForKeyPresses()
     {
-        if (Input.GetKeyDown("w"))
+        if (rowingMachineCtlr.DEBUG)
         {
-            keyPressed = true;
+            if (Input.GetKeyDown("w"))
+            {
+                keyPressed = true;
+            }
+        }
+        else
+        {
+            if (rowingMachineCtlr.WaitingRow)
+            {
+                keyPressed = true;
+                rowingMachineCtlr.WaitingRow = false;
+            }
         }
     }
 
