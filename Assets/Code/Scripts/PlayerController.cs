@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
         //logger.Log();
     }
 
-    void PlayerReset()
+    public void PlayerReset()
     {
         rb.velocity = Vector3.zero;
         transform.position = startingPosition;
