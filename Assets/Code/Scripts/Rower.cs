@@ -57,6 +57,7 @@ public class Rower : MonoBehaviour
                 break;
             default:
                 Debug.Log("Number of rowers: " + numRowers);
+                DEBUG = false;
                 break;
         }
         if (numRowers > 0 && !DEBUG)
