@@ -29,11 +29,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 lastPlayerMoveXPos;
     private RowingMachineController rowingMachine;
 
+    private static LoggerService logger;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         engine = GameObject.FindObjectOfType<Engine>();
         rowingMachine = GameObject.FindObjectOfType<RowingMachineController>();
+        logger = new LoggerService();
     }
     void Start()
     {
@@ -107,17 +110,16 @@ public class PlayerController : MonoBehaviour
 
     void LogData()
     {
-        // 
-        //var force = new Power(Time.time.ToString(), rowingMachine.CurrentForce, Section == Engine.Interval.HIGH_INTENSITY);
-        //var distance = new Distance(Time.time.ToString(), rowingMachine.DistanceTravelled);
+        var force = new Power(Time.time.ToString(), rowingMachine.CurrentForce, true);
+        var distance = new Distance(Time.time.ToString(), rowingMachine.DistanceTravelled);
         //var heartRate = new HeartRate(Time.time.ToString(), hrService.heartRate);
-        //var rpm = new RPM(Time.time.ToString(), rowingMachine.MeanRPM, Section == Engine.Interval.HIGH_INTENSITY);
+        var rpm = new RPM(Time.time.ToString(), rowingMachine.MeanRPM, true);
 
         //logger.heartRate.Enqueue(heartRate);
-        //logger.distance.Enqueue(distance);
-        //logger.power.Enqueue(force);
-        //logger.rpm.Enqueue(rpm);
-        //logger.Log();
+        logger.distance.Enqueue(distance);
+        logger.power.Enqueue(force);
+        logger.rpm.Enqueue(rpm);
+        logger.Log();
     }
 
     public void PlayerReset()
