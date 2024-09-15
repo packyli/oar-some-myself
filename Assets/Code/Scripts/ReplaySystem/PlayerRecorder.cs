@@ -34,10 +34,10 @@ public class PlayerRecorder : MonoBehaviour
         }
         else
         {
-            if (rowingMachineCtlr.WaitingRow)
+            if (rowingMachineCtlr.isRowed)
             {
                 keyPressed = true;
-                rowingMachineCtlr.WaitingRow = false;
+                //rowingMachineCtlr.isRowed = false;
             }
         }
     }
