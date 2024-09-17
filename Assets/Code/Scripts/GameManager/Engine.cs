@@ -22,7 +22,7 @@ public class Engine : MonoBehaviour
     private int maxRounds = 5;
     private TimerEvent timer;
     private PlayerController playerController;
-
+    private ReplayController replayController;
     private void Awake()
     {
         IsStarted = false;
@@ -43,7 +43,7 @@ public class Engine : MonoBehaviour
         // but waits for the player to start the game by pressing the spacebar
         // via the PlayerController
         playerController = GameObject.FindObjectOfType<PlayerController>();
-
+        replayController = GameObject.FindObjectOfType<ReplayController>();
     }
 
     public void StartGame()
@@ -121,6 +121,17 @@ public class Engine : MonoBehaviour
     {
         if (s_OnApplicationUpdate != null)
             s_OnApplicationUpdate();
+
+        if (Image_gameOver.gameObject.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                NextRound();
+                replayController.StartPlayback();
+            }
+        }
+
+   
     }
 
     public static ApplicationVoidCallback s_OnApplicationModuleInitEnd = null;
