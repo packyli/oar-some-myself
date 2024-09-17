@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,19 @@ public class ActorObject : MonoBehaviour
     //3. Recording System / Playback System
     //   Recording system will need to record inputs from the player and then be able to play it back to the object
 
+    public enum State
+    {
+        Playing,
+        Playback,
+        Reset
+
+    }
+    public State currentState;
+
+    //UI Timer
+    public Text timerText;
+
+    public float frequencyFactor;
 
     //1 
     private PlayerRecorder playerInput;
@@ -24,23 +38,12 @@ public class ActorObject : MonoBehaviour
     //3
     private InputRecorder inputRec;
 
-    public enum State
-    {
-        Playing,
-        Playback,
-        Reset
-
-    }
-    public State currentState;
-
-
     //Booleans to check initial state changes
     private bool newPlayback = false;
     private float timer;
     private float playbackTimer;
 
-    //UI Timer
-    public Text timerText;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -82,6 +85,10 @@ public class ActorObject : MonoBehaviour
         playerInput.ListenForKeyPresses();
     }
 
+    // Trigger the recording/playing/reset of objectController
+    // (int)currentState = 0: recording
+    // (int)currentState = 1: playing
+    // (int)currentState = 2: reset
     void FixedUpdate()
     {
         if ((int)currentState == 0)
@@ -105,12 +112,14 @@ public class ActorObject : MonoBehaviour
 
             playbackTimer = playbackTimer + Time.deltaTime;
             timerText.text = playbackTimer.ToString("F2");
+
             if (inputRec.KeyExists(playbackTimer))
             {
                 PlayerInputStruct recordedInputs = inputRec.GetRecordedInputs(playbackTimer);
                 if (recordedInputs.buttonPressed == true)
                 {
-                    Debug.Log("At " + playbackTimer + " the value of the button press is " + recordedInputs.buttonPressed);
+                    Debug.Log("The action row is done at (playbackTimer): " + playbackTimer);
+                    Debug.Log("At " + playbackTimer + " the value of buttonPressed (isRowed) is " + recordedInputs.buttonPressed);
                 }
                 objectController.GivenInputs(recordedInputs);
                 objectController.Move();
@@ -135,6 +144,14 @@ public class ActorObject : MonoBehaviour
 
     public void Playback()
     {
+        Debug.Log("Before altering frequenncy!");
+        inputRec.PrintInputRecord();
+
+        AlterFrequency(frequencyFactor);
+
+        Debug.Log("After altering frequenncy!");
+        inputRec.PrintInputRecord();
+
         newPlayback = true;
         currentState = State.Playback;
     }
@@ -144,5 +161,33 @@ public class ActorObject : MonoBehaviour
         objectController.Reset();
         currentState = State.Reset;
         playerInput.ResetInput();
+    }
+
+    private void AlterFrequency(float frequencyFactor)
+    {
+        float timeScaleFactor = 1 / frequencyFactor;
+        Debug.Log("timeScaleFactor is " + timeScaleFactor);
+
+        ScaleTimings(timeScaleFactor, inputRec);
+    }
+
+    // This method alters the timings in the dictionary
+    // The factor could be 0.5 to speed up by 2x or 2.0 to slow down by half
+    private void ScaleTimings(float factor, InputRecorder inputRec)
+    {
+        // Create a new dictionary to store updated times
+        // Scale the time
+        // Add the scaled time and corresponding input to the new dictionary
+        // Replace the old dictionary with the new scaled one
+        Dictionary<float, PlayerInputStruct> scaledInputs = new Dictionary<float, PlayerInputStruct>();
+
+        foreach (var entry in inputRec.playerInputRecord)
+        {
+            // Scale the time and round to 6 decimal places
+            float newTime = Mathf.Round(entry.Key * factor * 1e6f) / 1e6f;
+            scaledInputs.Add(newTime, entry.Value);
+        }
+
+        inputRec.playerInputRecord = scaledInputs;
     }
 }

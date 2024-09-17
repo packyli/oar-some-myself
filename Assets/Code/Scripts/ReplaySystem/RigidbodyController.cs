@@ -53,8 +53,8 @@ public class RigidbodyController : MonoBehaviour
         {
             _animator.SetTrigger("IsRow");
             _animator.speed = currentForce / standardForceByanimSpeed;
-            Debug.Log("Ghost Rowing Player's current animator speed: ");
-            Debug.Log(_animator.speed);
+            
+            Debug.Log("Ghost Rowing Player's current animator speed: " + _animator.speed);
 
             //rowingMachine.WaitingRow = false;
 
