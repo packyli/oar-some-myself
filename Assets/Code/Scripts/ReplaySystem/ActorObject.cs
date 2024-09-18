@@ -33,7 +33,7 @@ public class ActorObject : MonoBehaviour
     private PlayerRecorder playerInput;
 
     //2
-    private RigidbodyController objectController;
+    private CharacterControllerScript objectController;
 
     //3
     private InputRecorder inputRec;
@@ -49,7 +49,7 @@ public class ActorObject : MonoBehaviour
     {
         //initialize the variables
         playerInput = GetComponent<PlayerRecorder>();
-        objectController = GetComponent<RigidbodyController>();
+        objectController = GetComponent<CharacterControllerScript>();
         inputRec = GetComponent<InputRecorder>();
 
         if (playerInput == null)
@@ -60,7 +60,7 @@ public class ActorObject : MonoBehaviour
 
         if (objectController == null)
         {
-            Debug.LogError("RigidbodyController is missing from this GameObject. Please attach the RigidbodyController component.");
+            Debug.LogError("CharacterControllerScript is missing from this GameObject. Please attach the CharacterControllerScript component.");
             return;
         }
 
