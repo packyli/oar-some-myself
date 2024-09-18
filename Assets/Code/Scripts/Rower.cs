@@ -105,6 +105,10 @@ public class Rower : MonoBehaviour
             }
             return;
         }
+        else
+        {
+            InputField_power.text = RowPower.ToString();
+        }
     }
 
     void OnApplicationQuit()

@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         if (!engine.IsStarted)
         {
             // Reset game variables when space pressed at start of game
+            rb.velocity = Vector3.zero;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _startPanel.gameObject.SetActive(false);
@@ -126,64 +127,68 @@ public class PlayerController : MonoBehaviour
         transform.position = startingPosition;
         rb.rotation = startingRotation;
         rb.freezeRotation = true;
-    }
-}
 
-[Serializable]
-public class RPM
-{
-    public string time;
-    public bool intervalType;
-    public double rpm;
-
-    public RPM(string time, double rpm, bool interval)
-    {
-        this.time = time;
-        this.rpm = rpm;
-        intervalType = interval;
+        water.Find("Background0").SetAsFirstSibling();
+        water.GetChild(0).transform.localPosition = new Vector3(0, 0, 200);
+        water.GetChild(1).transform.localPosition = new Vector3(499, 0, 200);
     }
 
-    public override string ToString()
+    [Serializable]
+    public class RPM
     {
-        return time + "," + rpm + "," + intervalType;
-    }
-}
+        public string time;
+        public bool intervalType;
+        public double rpm;
 
+        public RPM(string time, double rpm, bool interval)
+        {
+            this.time = time;
+            this.rpm = rpm;
+            intervalType = interval;
+        }
 
-[Serializable]
-public class Power
-{
-    public String time;
-    public bool intervalType;
-    public double power;
-
-    public Power(String time, double data, bool interval)
-    {
-        this.time = time;
-        power = data;
-        intervalType = interval;
-    }
-
-    public override string ToString()
-    {
-        return time + "," + power + "," + intervalType;
-    }
-}
-
-[Serializable]
-public class Distance
-{
-    public String time;
-    public double distance;
-
-    public Distance(String time, double data)
-    {
-        this.time = time;
-        distance = data;
+        public override string ToString()
+        {
+            return time + "," + rpm + "," + intervalType;
+        }
     }
 
-    public override string ToString()
+
+    [Serializable]
+    public class Power
     {
-        return time + "," + distance;
+        public String time;
+        public bool intervalType;
+        public double power;
+
+        public Power(String time, double data, bool interval)
+        {
+            this.time = time;
+            power = data;
+            intervalType = interval;
+        }
+
+        public override string ToString()
+        {
+            return time + "," + power + "," + intervalType;
+        }
+    }
+
+    [Serializable]
+    public class Distance
+    {
+        public String time;
+        public double distance;
+
+        public Distance(String time, double data)
+        {
+            this.time = time;
+            distance = data;
+        }
+
+        public override string ToString()
+        {
+            return time + "," + distance;
+        }
     }
 }
