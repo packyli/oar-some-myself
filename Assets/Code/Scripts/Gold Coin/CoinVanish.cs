@@ -81,14 +81,7 @@ public class CoinVanish : MonoBehaviour
         }
     }
 
-    void ResetHighlight()
-    {
-        if (lastHighlighted != null)
-        {
-            lastHighlighted.GetComponent<Renderer>().material = originalMaterial;
-            lastHighlighted = null;
-        }
-    }
+   
     Transform GetGazedObject()
     {
         Ray centerEyeRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
