@@ -10,6 +10,7 @@ public class RowingMachineController : MonoBehaviour
     public uint DistanceTravelled { get; private set; }
     public uint CurrentForce { get; private set; }
     public bool DEBUG { get { return rower.DEBUG; } }
+    public bool isRowed { get; set; }
 
     /// <summary>
     /// The current mean row time delta in seconds, i.e. the mean time between rows.
@@ -39,6 +40,7 @@ public class RowingMachineController : MonoBehaviour
     void Awake ()
     {
         WaitingRow = false;
+        isRowed = false;
         rower = GetComponent<Rower>();
         engine = GameObject.FindObjectOfType<Engine>();
     }
@@ -65,6 +67,7 @@ public class RowingMachineController : MonoBehaviour
             if (oldPace != pace || oldPower != power)
             {
                 Row(distance, power, pace);
+                isRowed = true;
                 frenquency.text = MeanRPM.ToString();
             }
         }
@@ -78,7 +81,8 @@ public class RowingMachineController : MonoBehaviour
     /// <param name="pace">The rower's pace, in s/km.</param>
     void Row(uint distance, uint power, uint pace)
     {
-        Debug.Log("row 方法被执行");
+        Debug.Log("The method Row has started executing.");
+
         rowCount++;
         float deltaT = Time.time - lastRowTime;
         if (rowCount <= rowTimes.Length)

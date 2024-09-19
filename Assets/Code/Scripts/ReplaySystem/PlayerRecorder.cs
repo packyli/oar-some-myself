@@ -9,7 +9,9 @@ public class PlayerRecorder : MonoBehaviour
     //These two are the movement inputs in both horizontal and vertical movement
     //private float horizontalValue;
     //private float verticalValue;
-    
+
+    private float horizontalValue;
+    private float verticalValue;
     private uint rowPaceValue;
     private uint rowPowerValue;
     private uint rowDistanceValue;
@@ -25,14 +27,26 @@ public class PlayerRecorder : MonoBehaviour
 
     public void ListenForKeyPresses()
     {
-        if (Input.GetKeyDown("w"))
+        if (rowingMachineCtlr.DEBUG) {
+            if (Input.GetKeyDown("w"))
+            {
+                keyPressed = true;
+            }
+        }
+        else
         {
-            keyPressed = true;
+            if (rowingMachineCtlr.isRowed)
+            {
+                keyPressed = true;
+                rowingMachineCtlr.isRowed = false;
+            }
         }
     }
 
     public void GetInputs()
     {
+        horizontalValue = Input.GetAxis("Horizontal");
+        verticalValue = Input.GetAxis("Vertical");
         rowPaceValue = 35; // Temp value for testing
         rowPowerValue = rowingMachineCtlr.CurrentForce;
 
@@ -41,7 +55,8 @@ public class PlayerRecorder : MonoBehaviour
 
     public PlayerInputStruct GetInputStruct()
     {
-        PlayerInputStruct playerInputs = new PlayerInputStruct(rowPaceValue, rowPowerValue, rowDistanceValue, keyPressed);
+        PlayerInputStruct playerInputs = new PlayerInputStruct(horizontalValue,
+            verticalValue, rowPaceValue, rowPowerValue, rowDistanceValue, keyPressed);
         return playerInputs;
     }
 
