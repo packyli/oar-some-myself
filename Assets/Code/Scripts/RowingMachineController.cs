@@ -35,7 +35,9 @@ public class RowingMachineController : MonoBehaviour
     private int rowCount = 0;
 
     public Text frenquency;
-
+    public Image freqImage;
+    public float maxFreq = 100;
+    private float targetFreqFill;
     // Use this for initialization
     void Awake ()
     {
@@ -69,6 +71,9 @@ public class RowingMachineController : MonoBehaviour
                 Row(distance, power, pace);
                 isRowed = true;
                 frenquency.text = MeanRPM.ToString();
+                float freqvalue = MeanRPM / maxFreq;
+                freqImage.fillAmount = freqvalue;
+
             }
         }
 	}

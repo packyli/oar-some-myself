@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     public Text Text_pace;
     public Text Text_dis;
+    public Image torsionImage;
+    public Image speedImage;
+    public float maxTorsion = 100f;
+    public float maxSpeed = 20f;
 
     private Rigidbody rb;
     private Engine engine;
@@ -96,6 +100,14 @@ public class PlayerController : MonoBehaviour
 
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
             Text_pace.text = rb.velocity.x.ToString("f2");
+
+            float a = rowingMachine.CurrentForce;
+            float torsionvalue = a / maxTorsion;
+            torsionImage.fillAmount = torsionvalue;
+            float speedvalue = rb.velocity.x / maxSpeed;
+            speedImage.fillAmount = speedvalue;
+            
+
             Text_dis.text = (transform.position.x - startingPosition.x).ToString("f2");
             if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
             {
