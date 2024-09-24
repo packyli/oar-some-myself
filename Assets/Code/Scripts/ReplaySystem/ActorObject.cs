@@ -1,53 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ActorObject : MonoBehaviour
 {
-    //What do actor objects need?
-    //List-----------------------
-    //1. Player Input
-    //   Need a player recorder class to record inputs that are being sent to character.
-    //2. Object Controller
-    //   This object controller needs to read inputs and apply them to object.
-    //3. Recording System / Playback System
-    //   Recording system will need to record inputs from the player and then be able to play it back to the object
-
     public enum State
     {
         Playing,
         Playback,
         Reset
-
     }
     public State currentState;
 
-    //UI Timer
+    // UI Timer
     public Text timerText;
 
     public float frequencyFactor;
 
-    //1 
+    // 1. Player Input
     private PlayerRecorder playerInput;
 
-    //2
+    // 2. Object Controller
     private CharacterControllerScript objectController;
 
-    //3
+    // 3. Recording System
     private InputRecorder inputRec;
 
-    //Booleans to check initial state changes
+    // Booleans to check initial state changes
     private bool newPlayback = false;
     private float timer;
     private float playbackTimer;
 
-    
     // Start is called before the first frame update
     void Start()
     {
-        //initialize the variables
+        // Initialize the variables
         playerInput = GetComponent<PlayerRecorder>();
         objectController = GetComponent<CharacterControllerScript>();
         inputRec = GetComponent<InputRecorder>();
@@ -70,68 +58,75 @@ public class ActorObject : MonoBehaviour
             return;
         }
 
-        //Player starts as idle until their clicked on, prob change this later
+        // Player starts as idle (Reset state)
         currentState = State.Reset;
         timer = 0;
         playbackTimer = 0;
     }
 
-    // Update is called once per frame
-    // For button presses I noticed that if they're listened for in the fixed update they are somtimes missed
-    // With this listening in a normal update loop, the button press is set to true. Then when the fixed update
-    // goes over it, it will record the value as true, and then clear it for the next time the button is true.
     void Update()
     {
+        // Capture key presses in the regular update loop
         playerInput.ListenForKeyPresses();
     }
 
-    // Trigger the recording/playing/reset of objectController
-    // (int)currentState = 0: recording
-    // (int)currentState = 1: playing
-    // (int)currentState = 2: reset
     void FixedUpdate()
     {
-        if ((int)currentState == 0)
+        switch (currentState)
         {
-            timer = timer + Time.deltaTime;
-            timerText.text = timer.ToString("F2");
-            playerInput.GetInputs();
-            PlayerInputStruct userInput = playerInput.GetInputStruct();
+            case State.Playing:
+                HandleRecording();
+                break;
+            case State.Playback:
+                HandlePlayback();
+                break;
+            case State.Reset:
+                HandleReset();
+                break;
+        }
+    }
 
-            inputRec.AddToDictionary(timer, userInput);
-            playerInput.ResetInput();
+    private void HandleRecording()
+    {
+        timer += Time.deltaTime;
+        timerText.text = timer.ToString("F2");
+
+        playerInput.GetInputs();
+        PlayerInputStruct userInput = playerInput.GetInputStruct();
+        inputRec.AddToDictionary(timer, userInput);
+
+        playerInput.ResetInput();
+    }
+
+    private void HandlePlayback()
+    {
+        if (newPlayback)
+        {
+            playbackTimer = 0;
+            newPlayback = false;
         }
 
-        if ((int)currentState == 1)
+        playbackTimer += Time.deltaTime;
+        timerText.text = playbackTimer.ToString("F2");
+
+        if (inputRec.KeyExists(playbackTimer))
         {
-            if (newPlayback == true)
+            PlayerInputStruct recordedInputs = inputRec.GetRecordedInputs(playbackTimer);
+
+            if (recordedInputs.buttonPressed)
             {
-                playbackTimer = 0;
-                newPlayback = false;
+                Debug.Log($"Row action triggered at {playbackTimer}, buttonPressed: {recordedInputs.buttonPressed}");
             }
 
-            playbackTimer = playbackTimer + Time.deltaTime;
-            timerText.text = playbackTimer.ToString("F2");
-
-            if (inputRec.KeyExists(playbackTimer))
-            {
-                PlayerInputStruct recordedInputs = inputRec.GetRecordedInputs(playbackTimer);
-                if (recordedInputs.buttonPressed == true)
-                {
-                    Debug.Log("The action row is done at (playbackTimer): " + playbackTimer);
-                    Debug.Log("At " + playbackTimer + " the value of buttonPressed (isRowed) is " + recordedInputs.buttonPressed);
-                }
-                objectController.GivenInputs(recordedInputs);
-                objectController.Move();
-            }
-
+            objectController.GivenInputs(recordedInputs);
+            objectController.Move();
         }
+    }
 
-        if ((int)currentState == 2)
-        {
-            timer = 0;
-            timerText.text = "0.00";
-        }
+    private void HandleReset()
+    {
+        timer = 0;
+        timerText.text = "0.00";
     }
 
     public void Recording()
@@ -141,19 +136,16 @@ public class ActorObject : MonoBehaviour
         currentState = State.Playing;
     }
 
-
     public void Playback()
     {
-        Debug.Log("Before altering frequenncy!");
+        Debug.Log("Starting playback.");
         inputRec.PrintInputRecord();
 
-        if (!(frequencyFactor == 0 || frequencyFactor == 1))
+        if (frequencyFactor > 1)
         {
-            AlterFrequency(frequencyFactor);
+            Debug.Log("Start altering frequency!!");
+            AlterFrequency();
         }
-        
-        //Debug.Log("After altering frequenncy!");
-        //inputRec.PrintInputRecord();
 
         newPlayback = true;
         currentState = State.Playback;
@@ -162,35 +154,85 @@ public class ActorObject : MonoBehaviour
     public void Reset()
     {
         objectController.Reset();
-        currentState = State.Reset;
         playerInput.ResetInput();
+        currentState = State.Reset;
     }
 
-    private void AlterFrequency(float frequencyFactor)
+    // This method doubles the frequency of `buttonPressed` occurrences in the input record
+    private void AlterFrequency()
     {
-        float timeScaleFactor = 1 / frequencyFactor;
-        Debug.Log("timeScaleFactor is " + timeScaleFactor);
+        List<float> keys = new List<float>(inputRec.playerInputRecord.Keys);
 
-        ScaleTimings(timeScaleFactor, inputRec);
-    }
-
-    // This method alters the timings in the dictionary
-    // The factor could be 0.5 to speed up by 2x or 2.0 to slow down by half
-    private void ScaleTimings(float factor, InputRecorder inputRec)
-    {
-        // Create a new dictionary to store updated times
-        // Scale the time
-        // Add the scaled time and corresponding input to the new dictionary
-        // Replace the old dictionary with the new scaled one
-        Dictionary<float, PlayerInputStruct> scaledInputs = new Dictionary<float, PlayerInputStruct>();
-
-        foreach (var entry in inputRec.playerInputRecord)
+        // Loop through all key-value pairs
+        for (int i = 0; i < keys.Count - 1; i++)
         {
-            // Scale the time and round to 6 decimal places
-            float newTime = Mathf.Round(entry.Key * factor * 1e6f) / 1e6f;
-            scaledInputs.Add(newTime, entry.Value);
+            float currentTime = keys[i];
+            PlayerInputStruct currentInput = inputRec.playerInputRecord[currentTime];
+
+            if (currentInput.buttonPressed)
+            {
+                // Find the next time where buttonPressed is true
+                float nextRowTime = -1;
+                for (int j = i + 1; j < keys.Count; j++)
+                {
+                    float nextTime = keys[j];
+                    PlayerInputStruct nextInput = inputRec.GetRecordedInputs(nextTime);
+
+                    if (nextInput.buttonPressed)
+                    {
+                        nextRowTime = nextTime;
+                        break; // Exit the loop as soon as we find the next buttonPressed = true
+                    }
+                }
+
+                // If no further row action (buttonPressed == true) is found, break the loop
+                if (nextRowTime == -1) break;
+
+                // Calculate the midTime between currentTime and nextRowTime
+                float midTime = currentTime + (nextRowTime - currentTime) / 2;
+                Debug.Log("midTime: " + midTime);
+
+                // Check if midTime exists in the dictionary
+                PlayerInputStruct midInput;
+                if (inputRec.KeyExists(midTime))
+                {
+                    midInput = inputRec.GetRecordedInputs(midTime);
+                    Debug.Log("KeyExists: " + midTime);
+
+                    // Set buttonPressed to true at the midpoint
+                    midInput.buttonPressed = true;
+                    // Update the dictionary with the modified input
+                    inputRec.UpdateDictionary(midTime, midInput);
+
+                }
+                else
+                {
+                    Debug.Log("KeyNotExists: " + midTime);
+                    // If midTime does not exist, interpolate values between current and next inputs
+                    midInput = InterpolateInputs(currentInput, inputRec.GetRecordedInputs(nextRowTime), 0.5f);
+                    // Insert interpolated entry
+                    inputRec.AddToDictionary(midTime, midInput);
+                }
+            }
         }
 
-        inputRec.playerInputRecord = scaledInputs;
+        // Print the altered record (optional)
+        Debug.Log("Double frequency done!");
+        inputRec.PrintInputRecord();
     }
+
+
+    // Method to interpolate between two PlayerInputStructs
+    private PlayerInputStruct InterpolateInputs(PlayerInputStruct input1, PlayerInputStruct input2, float factor)
+    {
+        return new PlayerInputStruct(
+            Mathf.Lerp(input1.horizontalInput, input2.horizontalInput, factor),
+            Mathf.Lerp(input1.verticalInput, input2.verticalInput, factor),
+            (uint)Mathf.Lerp(input1.rowPaceInput, input2.rowPaceInput, factor),
+            (uint)Mathf.Lerp(input1.rowPowerInput, input2.rowPowerInput, factor),
+            (uint)Mathf.Lerp(input1.rowDistanceInput, input2.rowDistanceInput, factor),
+            input1.buttonPressed || input2.buttonPressed  // Preserve true if either input has buttonPressed true
+        );
+    }
+
 }

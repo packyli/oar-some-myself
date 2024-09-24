@@ -22,6 +22,23 @@ public class InputRecorder : MonoBehaviour
         playerInputRecord.Add(time, inputs);
     }
 
+    public void UpdateDictionary(float time, PlayerInputStruct inputs)
+    {
+        // Check if the key already exists in the dictionary
+        if (KeyExists(time))
+        {
+            // Update the value for the existing key
+            playerInputRecord[time] = inputs;
+            Debug.Log($"Updated inputs for time: {time}");
+        }
+        else
+        {
+            // If the key doesn't exist, add the new entry
+            playerInputRecord.Add(time, inputs);
+            Debug.Log($"Added new inputs for time: {time}");
+        }
+    }
+
     public void ClearHistory()
     {
         playerInputRecord = new Dictionary<float, PlayerInputStruct>();
