@@ -75,10 +75,13 @@ public class InputRecorder : MonoBehaviour
         {
             if (entry.Value.buttonPressed)
             {
-                Debug.Log($"Time: {entry.Key}, Inputs: RowPace = {entry.Value.rowPaceInput}, " +
-                $"RowPower = {entry.Value.rowPowerInput}, " +
-                $"RowDistance = {entry.Value.rowDistanceInput}, " +
-                $"ButtonPressed = {entry.Value.buttonPressed}");
+                Debug.Log($"Time: {entry.Key}, Inputs: "
+                          + $"horizontalInput = {entry.Value.horizontalInput}, "
+                          + $"verticalInput = {entry.Value.verticalInput}, "
+                          + $"RowPace = {entry.Value.rowPaceInput}, "
+                          + $"RowPower = {entry.Value.rowPowerInput}, "
+                          + $"RowDistance = {entry.Value.rowDistanceInput}, "
+                          + $"ButtonPressed = {entry.Value.buttonPressed}");
             }
         }
     }
