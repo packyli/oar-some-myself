@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerRecorder : MonoBehaviour
 {
 
-    //This class should include all the potential inpuits that the player makes
+    //This class should include all the potential inputs that the player makes
     //These two are the movement inputs in both horizontal and vertical movement
     //private float horizontalValue;
     //private float verticalValue;
@@ -62,6 +62,8 @@ public class PlayerRecorder : MonoBehaviour
 
     public void ResetInput()
     {
+        horizontalValue = 0;
+        verticalValue = 0;
         rowPaceValue = 0;
         rowPowerValue = 0;
         rowDistanceValue = 0;
