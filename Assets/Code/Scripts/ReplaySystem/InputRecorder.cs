@@ -22,6 +22,23 @@ public class InputRecorder : MonoBehaviour
         playerInputRecord.Add(time, inputs);
     }
 
+    public void UpdateDictionary(float time, PlayerInputStruct inputs)
+    {
+        // Check if the key already exists in the dictionary
+        if (KeyExists(time))
+        {
+            // Update the value for the existing key
+            playerInputRecord[time] = inputs;
+            Debug.Log($"Updated inputs for time: {time}");
+        }
+        else
+        {
+            // If the key doesn't exist, add the new entry
+            playerInputRecord.Add(time, inputs);
+            Debug.Log($"Added new inputs for time: {time}");
+        }
+    }
+
     public void ClearHistory()
     {
         playerInputRecord = new Dictionary<float, PlayerInputStruct>();
@@ -58,10 +75,13 @@ public class InputRecorder : MonoBehaviour
         {
             if (entry.Value.buttonPressed)
             {
-                Debug.Log($"Time: {entry.Key}, Inputs: RowPace = {entry.Value.rowPaceInput}, " +
-                $"RowPower = {entry.Value.rowPowerInput}, " +
-                $"RowDistance = {entry.Value.rowDistanceInput}, " +
-                $"ButtonPressed = {entry.Value.buttonPressed}");
+                Debug.Log($"Time: {entry.Key}, Inputs: "
+                          + $"horizontalInput = {entry.Value.horizontalInput}, "
+                          + $"verticalInput = {entry.Value.verticalInput}, "
+                          + $"RowPace = {entry.Value.rowPaceInput}, "
+                          + $"RowPower = {entry.Value.rowPowerInput}, "
+                          + $"RowDistance = {entry.Value.rowDistanceInput}, "
+                          + $"ButtonPressed = {entry.Value.buttonPressed}");
             }
         }
     }
