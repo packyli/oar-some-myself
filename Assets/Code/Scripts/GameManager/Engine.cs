@@ -17,6 +17,7 @@ public class Engine : MonoBehaviour
     public int currentRound = 1;
 
     private int countToWhen = 120;
+    private int defaultCountToWhen;
     private int timeCount = 0;
     private int maxRounds = 5;
     private TimerEvent timer;
@@ -79,6 +80,7 @@ public class Engine : MonoBehaviour
         if (int.TryParse(Text_time.text, out countToWhen))
         {
             Debug.Log("Conversion successful, countToWhen: " + countToWhen);
+            defaultCountToWhen = countToWhen;
         }
         else
         {
@@ -101,6 +103,7 @@ public class Engine : MonoBehaviour
     private void EndRound()
     {
         Timer.DestroyTimer("dtime");
+        Text_time.text = defaultCountToWhen.ToString();
         Image_gameOver.gameObject.SetActive(true);
         playerController.PlayerReset();
         IsStarted = false;
@@ -144,7 +147,7 @@ public class Engine : MonoBehaviour
 
         if (Image_gameOver.gameObject.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 NextRound();
                 replayController.StartPlayback();

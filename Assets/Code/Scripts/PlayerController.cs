@@ -62,9 +62,9 @@ public class PlayerController : MonoBehaviour
 
         if (!engine.IsStarted)
         {
-            // Reset game variables when space pressed at start of game
+            // Reset game variables when the key S pressed at start of game
             rb.velocity = Vector3.zero;
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.S))
             {
                 _startPanel.gameObject.SetActive(false);
                 engine.StartGame();
