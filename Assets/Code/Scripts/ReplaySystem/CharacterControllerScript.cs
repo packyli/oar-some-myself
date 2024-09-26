@@ -7,8 +7,8 @@ public class CharacterControllerScript : MonoBehaviour
 {
     public Animator _animator;
     public float standardForceByanimSpeed = 50;
-    public float moveSpeedFactor = 5f;
-    public float playerPowerFactor = 1f;
+    public float moveSpeedFactor { get; set; }
+    public float playerPowerFactor { get; set; }
 
     private CharacterController charCont;
     private Vector3 initialPosition;
@@ -47,7 +47,7 @@ public class CharacterControllerScript : MonoBehaviour
 
     public void AlterRowPower()
     {
-        _animator.speed = currentForce / standardForceByanimSpeed;
+        _animator.speed = playerPowerFactor * currentForce / standardForceByanimSpeed;
         Debug.Log("Rowing Player Avatar's current animator speed: " + _animator.speed);
     }
 
