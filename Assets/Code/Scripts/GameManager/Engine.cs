@@ -16,19 +16,26 @@ public class Engine : MonoBehaviour
     public Button button_nextRound;
     public int currentRound = 1;
 
-    private Text Text_CountToWhen;
     private int countToWhen = 120;
     private int timeCount = 0;
     private int maxRounds = 5;
     private TimerEvent timer;
     private PlayerController playerController;
     private ReplayController replayController;
+    private RoundController roundController;
+
     private void Awake()
     {
         IsStarted = false;
         GameOver = false;
         Timer.Init();
         button_nextRound.onClick.AddListener(NextRound);
+
+        roundController = GetComponent<RoundController>();
+        if (roundController == null)
+        {
+            Debug.LogError("RoundController is missing! Please attach it to the GameObject.");
+        }
     }
 
     private void ReStart()
@@ -62,6 +69,13 @@ public class Engine : MonoBehaviour
         Image_gameOver.gameObject.SetActive(false);
         IsStarted = true;
 
+        // Apply round-specific configurations from RoundController
+        // Use 1-based index as expected by RoundController
+        if (roundController != null)
+        {
+            roundController.StartRound(currentRound);
+        }
+
         if (int.TryParse(Text_time.text, out countToWhen))
         {
             Debug.Log("Conversion successful, countToWhen: " + countToWhen);
@@ -77,24 +91,30 @@ public class Engine : MonoBehaviour
 
             if (countToWhen - timeCount == 0)
             {
-                Timer.DestroyTimer("dtime");
-                Image_gameOver.gameObject.SetActive(true);
-                playerController.PlayerReset();
-                IsStarted = false;
-                if (currentRound < maxRounds)
-                {
-                    // Show the next round button after a delay
-                    Invoke("ShowNextRoundButton", 5f);
-                }
-                else
-                {
-                    // Automatically restart to round 1 after last round
-                    Invoke("ReStart", 5f);
-                }
+                EndRound();
             }
         });
 
         timer.m_timerName = "dtime";
+    }
+
+    private void EndRound()
+    {
+        Timer.DestroyTimer("dtime");
+        Image_gameOver.gameObject.SetActive(true);
+        playerController.PlayerReset();
+        IsStarted = false;
+
+        if (currentRound < maxRounds)
+        {
+            // Show the next round button after a delay
+            Invoke(nameof(ShowNextRoundButton), 5f);
+        }
+        else
+        {
+            // Automatically restart to round 1 after last round
+            Invoke(nameof(ReStart), 5f);
+        }
     }
 
     private void ShowNextRoundButton()

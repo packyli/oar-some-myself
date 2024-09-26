@@ -16,7 +16,7 @@ public class ActorObject : MonoBehaviour
     // UI Timer
     public Text timerText;
 
-    public float frequencyFactor;
+    public float frequencyFactor { get; set; }
 
     // 1. Player Input
     private PlayerRecorder playerInput;
