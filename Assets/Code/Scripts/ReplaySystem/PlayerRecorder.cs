@@ -46,10 +46,11 @@ public class PlayerRecorder : MonoBehaviour
     public void GetInputs()
     {
         horizontalValue = Input.GetAxis("Horizontal");
+        //Debug.Log("------------ GetInouts horizontalValue:::::: " + horizontalValue + "------------------");
         verticalValue = Input.GetAxis("Vertical");
-        rowPaceValue = 35; // Temp value for testing
+        //Debug.Log("++++++++++++ GetInouts verticalValue:::::: " + verticalValue + "++++++++++++++++++");
+        rowPaceValue = (uint)rowingMachineCtlr.MeanRPM;
         rowPowerValue = rowingMachineCtlr.CurrentForce;
-
         rowDistanceValue = rowingMachineCtlr.DistanceTravelled;
     }
 
