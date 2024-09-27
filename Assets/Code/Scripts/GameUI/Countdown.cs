@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class 计时圈 : MonoBehaviour
+public class Countdown : MonoBehaviour
 {
     public Image countdown;
     public Text CountdowndText;

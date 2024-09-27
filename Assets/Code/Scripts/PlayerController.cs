@@ -77,8 +77,8 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.SetTrigger("IsRow");
                 _animator.speed = rowingMachine.CurrentForce / standardForceByanimSpeed;
-                Debug.Log("Rowing Player's current animator speed: ");
-                Debug.Log(_animator.speed);
+                Debug.Log("Rowing Player's current animator speed: " + _animator.speed);
+
                 rowingMachine.WaitingRow = false;
 
                 if (rb.velocity.y < 0)
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
                 {
                     Debug.Log("Current proportionate force: " + rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput);
                 }
-                //engine.AddToCurrentScore(50);
+
             }
 
             // Don't move backwards

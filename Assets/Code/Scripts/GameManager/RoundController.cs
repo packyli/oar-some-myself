@@ -137,7 +137,7 @@ public class RoundController : MonoBehaviour
     {
         Debug.Log($"Applying Factors: SpeedFactor = {speedFactor}, FrequencyFactor = {frequencyFactor}, PowerFactor = {powerFactor}");
 
-        var avatarController = FindObjectOfType<CharacterControllerScript>();
+        var avatarController = FindObjectOfType<AvatarController>();
         var avatarActor = FindObjectOfType<ActorObject>();
 
         if (avatarController != null)

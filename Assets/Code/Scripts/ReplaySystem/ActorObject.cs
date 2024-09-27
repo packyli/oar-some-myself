@@ -22,7 +22,7 @@ public class ActorObject : MonoBehaviour
     private PlayerRecorder playerInput;
 
     // 2. Object Controller
-    private CharacterControllerScript objectController;
+    private AvatarController objectController;
 
     // 3. Recording System
     private InputRecorder inputRec;
@@ -37,7 +37,7 @@ public class ActorObject : MonoBehaviour
     {
         // Initialize the variables
         playerInput = GetComponent<PlayerRecorder>();
-        objectController = GetComponent<CharacterControllerScript>();
+        objectController = GetComponent<AvatarController>();
         inputRec = GetComponent<InputRecorder>();
 
         if (playerInput == null)
@@ -48,7 +48,7 @@ public class ActorObject : MonoBehaviour
 
         if (objectController == null)
         {
-            Debug.LogError("CharacterControllerScript is missing from this GameObject. Please attach the CharacterControllerScript component.");
+            Debug.LogError("AvatarController is missing from this GameObject. Please attach the AvatarController component.");
             return;
         }
 
