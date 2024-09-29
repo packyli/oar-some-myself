@@ -33,11 +33,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 lastPlayerMoveXPos;
     private RowingMachineController rowingMachine;
 
+    private static LoggerService logger;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         engine = GameObject.FindObjectOfType<Engine>();
         rowingMachine = GameObject.FindObjectOfType<RowingMachineController>();
+        logger = new LoggerService();
     }
     void Start()
     {
@@ -120,18 +123,29 @@ public class PlayerController : MonoBehaviour
 
     void LogData()
     {
-        // 
-        //var force = new Power(Time.time.ToString(), rowingMachine.CurrentForce, Section == Engine.Interval.HIGH_INTENSITY);
-        //var distance = new Distance(Time.time.ToString(), rowingMachine.DistanceTravelled);
-        //var heartRate = new HeartRate(Time.time.ToString(), hrService.heartRate);
-        //var rpm = new RPM(Time.time.ToString(), rowingMachine.MeanRPM, Section == Engine.Interval.HIGH_INTENSITY);
+        // 获取 Engine 实例
+        Engine engine = GameObject.FindObjectOfType<Engine>();
 
-        //logger.heartRate.Enqueue(heartRate);
-        //logger.distance.Enqueue(distance);
-        //logger.power.Enqueue(force);
-        //logger.rpm.Enqueue(rpm);
-        //logger.Log();
+        // 获取当前轮次的时间 (timeCount)
+        int elapsedTime = engine.timeCount;
+
+        // 获取当前系统时间 (Time.time)
+        string systemTime = Time.time.ToString("F2");  // 保留两位小数
+
+        // 获取当前轮次的数据
+        var force = new Power(systemTime, rowingMachine.CurrentForce, false);  // 系统时间作为 Time 列
+        var distance = new Distance(systemTime, transform.position.x - startingPosition.x);
+        var rpm = new RPM(systemTime, rowingMachine.MeanRPM, false);
+
+        // 将数据存入 LoggerService 的队列
+        logger.power.Enqueue(force);
+        logger.distance.Enqueue(distance);
+        logger.rpm.Enqueue(rpm);
+
+        // 调用 LoggerService 并传递当前轮次和 timeCount
+        logger.Log(engine.currentRound, elapsedTime);  // 传递 timeCount 作为额外列
     }
+
 
     public void PlayerReset()
     {
