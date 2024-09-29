@@ -18,7 +18,7 @@ public class Engine : MonoBehaviour
 
     private int countToWhen = 120;
     private int defaultCountToWhen;
-    private int timeCount = 0;
+    public int timeCount = 0;
     private int maxRounds = 5;
     private TimerEvent timer;
     private PlayerController playerController;
