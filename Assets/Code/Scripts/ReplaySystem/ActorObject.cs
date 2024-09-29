@@ -32,6 +32,8 @@ public class ActorObject : MonoBehaviour
     private float timer;
     private float playbackTimer;
 
+    private Dashboard avatarDashboard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,8 @@ public class ActorObject : MonoBehaviour
         playerInput = GetComponent<PlayerRecorder>();
         objectController = GetComponent<AvatarController>();
         inputRec = GetComponent<InputRecorder>();
+        avatarDashboard = GameObject.FindObjectOfType<Dashboard>();
+
 
         if (playerInput == null)
         {
@@ -120,6 +124,8 @@ public class ActorObject : MonoBehaviour
 
             objectController.GivenInputs(recordedInputs);
             objectController.Move();
+
+            avatarDashboard.UpdateAvtarBar(recordedInputs);
         }
     }
 

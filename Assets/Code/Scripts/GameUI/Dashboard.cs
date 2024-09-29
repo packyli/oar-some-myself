@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Dashboard : MonoBehaviour
 {
-    public uint torsioninput= 800;
-    public uint freqinput = 50;
-    public uint speedinput = 180;
+    
+    public uint torsioninput = 0;
+    public uint freqinput = 0;
+    public uint speedinput = 0;
+    public uint distance = 0;
 
     public Image torsionImage;
     public Image freqImage;
@@ -15,22 +16,28 @@ public class Dashboard : MonoBehaviour
     public float maxTorsion = 1000;
     public float maxFreq = 60;
     public float maxSpeed = 200;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateAvtarBar(PlayerInputStruct recordedInputs)
     {
-        float torsionvalue = (float)torsioninput/ maxTorsion;
+        torsioninput = recordedInputs.rowPowerInput;
+        float torsionvalue = (float)torsioninput / maxTorsion;
         torsionImage.fillAmount = torsionvalue;
 
+        freqinput = recordedInputs.rowPaceInput;
         float freqvalue = (float)freqinput / maxFreq;
         freqImage.fillAmount = freqvalue;
 
+        distance = recordedInputs.rowDistanceInput;
+        speedinput = distance;
         float speedvalue = (float)speedinput / maxSpeed;
         speedImage.fillAmount = speedvalue;
     }
+
+    
 }

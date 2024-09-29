@@ -126,6 +126,7 @@ public class OVREyeGaze : MonoBehaviour
     {
         if (!OVRPermissionsRequester.IsPermissionGranted(EyeTrackingPermission))
         {
+            Debug.LogWarning("star the eye tracking");
             OVRPermissionsRequester.PermissionGranted -= _onPermissionGranted;
             OVRPermissionsRequester.PermissionGranted += _onPermissionGranted;
             return false;
@@ -136,7 +137,7 @@ public class OVREyeGaze : MonoBehaviour
             Debug.LogWarning($"[{nameof(OVREyeGaze)}] Failed to start eye tracking.");
             return false;
         }
-
+        Debug.LogWarning("the eye tracking is working!!!!");
         return true;
     }
 
