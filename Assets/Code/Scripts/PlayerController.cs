@@ -124,13 +124,17 @@ public class PlayerController : MonoBehaviour
     void LogData()
     {
         // 获取 Engine 实例
-        Engine engine = GameObject.FindObjectOfType<Engine>();
+        engine = GameObject.FindObjectOfType<Engine>();
 
         // 获取当前轮次的时间 (timeCount)
         int elapsedTime = engine.timeCount;
 
         // 获取当前系统时间 (Time.time)
         string systemTime = Time.time.ToString("F2");  // 保留两位小数
+
+        // 获取 ParticipateID 的 Text 组件
+        Text participateIDText = GameObject.Find("ParticipateID").GetComponent<Text>();
+        string participateID = participateIDText.text;  // 获取 Text 组件中的文本（数字）
 
         // 获取当前轮次的数据
         var force = new Power(systemTime, rowingMachine.CurrentForce, false);  // 系统时间作为 Time 列
@@ -142,9 +146,10 @@ public class PlayerController : MonoBehaviour
         logger.distance.Enqueue(distance);
         logger.rpm.Enqueue(rpm);
 
-        // 调用 LoggerService 并传递当前轮次和 timeCount
-        logger.Log(engine.currentRound, elapsedTime);  // 传递 timeCount 作为额外列
+        // 调用 LoggerService 并传递当前轮次和 ParticipateID
+        logger.Log(participateID, engine.currentRound, elapsedTime);  // 调整 ParticipateID 为第一个参数
     }
+
 
 
     public void PlayerReset()

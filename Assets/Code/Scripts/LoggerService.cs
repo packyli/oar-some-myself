@@ -15,11 +15,10 @@ public class LoggerService
     public LoggerService()
     {
         // 设置日志文件保存路径和名称
-        LOGGER_PATH = Application.persistentDataPath + "/LOGGER_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + "_game_data.csv";
+        LOGGER_PATH = Application.persistentDataPath + "/LOGGER_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
-
-        // 创建文件并添加文件头（CSV列名）
-        File.AppendAllText(LOGGER_PATH + GAME_DATA, "Round,SystemTime,TimeCount,Power,Distance,RPM\n");
+        // 创建并添加文件头（CSV列名）
+        File.AppendAllText(LOGGER_PATH + GAME_DATA, "ParticipateID,Round,SystemTime,TimeCount,Power,Distance,RPM\n");
 
 
         // 打印文件保存路径
@@ -27,7 +26,7 @@ public class LoggerService
     }
 
     // 保存数据到文件
-    public void Log(int round, int timeCount)
+    public void Log(string participateID, int round, int timeCount)
     {
         // 只有当队列中有数据时才进行写入操作
         while (power.Count > 0 && distance.Count > 0 && rpm.Count > 0)
@@ -36,12 +35,11 @@ public class LoggerService
             PlayerController.Distance distanceData = distance.Dequeue();
             PlayerController.RPM rpmData = rpm.Dequeue();
 
-            // 将轮次、系统时间、timeCount、力量、距离和RPM写入到日志文件
-            string logEntry = $"{round},{powerData.time},{timeCount},{powerData.power},{distanceData.distance},{rpmData.rpm}\n";
+            // 将轮次、系统时间、timeCount、ParticipateID、力量、距离和RPM写入到日志文件
+            string logEntry = $"{participateID},{round},{powerData.time},{timeCount},{powerData.power},{distanceData.distance},{rpmData.rpm}\n";
             File.AppendAllText(LOGGER_PATH + GAME_DATA, logEntry);
         }
     }
-
 
 }
 
