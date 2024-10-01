@@ -13,14 +13,14 @@ public class Dashboard : MonoBehaviour
     public Image torsionImage;
     public Image freqImage;
     public Image speedImage;
-    public float maxTorsion = 1000;
-    public float maxFreq = 60;
-    public float maxSpeed = 200;
-
+    public float maxTorsion = 150f;
+    public float maxFreq = 60f;
+    public float maxSpeed = 20f;
+    public Engine engine;
     // Start is called before the first frame update
     void Start()
     {
-
+        engine = FindObjectOfType<Engine>();
     }
 
     public void UpdateAvtarBar(PlayerInputStruct recordedInputs)
@@ -33,11 +33,13 @@ public class Dashboard : MonoBehaviour
         float freqvalue = (float)freqinput / maxFreq;
         freqImage.fillAmount = freqvalue;
 
-        distance = recordedInputs.rowDistanceInput;
-        speedinput = distance;
-        float speedvalue = (float)speedinput / maxSpeed;
-        speedImage.fillAmount = speedvalue;
+        float time = engine.timeCount;
+        if (time > 0)
+        {
+            distance = recordedInputs.rowDistanceInput;
+            speedinput = (uint)(distance / (float)time);
+            float speedvalue = (float)speedinput / maxSpeed;
+            speedImage.fillAmount = speedvalue;
+        }
     }
-
-    
 }
