@@ -1,4 +1,5 @@
 
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using static RoundController;
@@ -19,16 +20,24 @@ public class Dashboard : MonoBehaviour
     public float maxSpeed = 20f;
     public Engine engine;
     public RoundController roundController;
-    private int dropdownValue;
+    public RoundMonitor monitor;
+    private int dropdownValue2;
+    private int dropdownValue3;
+    private int dropdownValue4;
+    private int dropdownValue5;
     // Start is called before the first frame update
     void Start()
     {
         engine = FindObjectOfType<Engine>();
         roundController = FindObjectOfType<RoundController>();
+        monitor = FindObjectOfType<RoundMonitor>();
+
     }
+
 
     public void UpdateAvtarBar(PlayerInputStruct recordedInputs)
     {
+        int currentRound = engine.currentRound;
         torsioninput = recordedInputs.rowPowerInput;
         float torsionvalue = (float)torsioninput / maxTorsion;
         
@@ -40,72 +49,109 @@ public class Dashboard : MonoBehaviour
         float FrequencyFactor = roundController.FrequencyFactor;
         float SpeedFactor = roundController.SpeedFactor;
 
-        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag("Round2Config");
+        dropdownValue2 = monitor.dropdownValue2;
+        dropdownValue3 = monitor.dropdownValue3;
+        dropdownValue4 = monitor.dropdownValue4;
+        dropdownValue5 = monitor.dropdownValue5;
 
-        foreach (GameObject obj in objectsWithTag)
-        {
-            Debug.Log("what I found!!!!!!!!!!!: " + obj.name);
-        }
-
-        int currentRound = engine.currentRound;
-        string  tagName = "Round"+currentRound.ToString()+"Config";
-        Debug.Log("My tage name is!!!!!!!!!!!!!!!!!! "+ tagName);
-        GameObject dropdownObject = GameObject.Find("Round2Config");
-
-        if (dropdownObject != null)
-        {
-            
-            Dropdown dropdown = dropdownObject.GetComponent<Dropdown>();
-
-            
-            if (dropdown != null)
-            {
-                
-                dropdownValue = dropdown.value;
-
-                
-                Debug.Log("Dropdown Value:!!!!!!!!!!!!!!!!!!!!!!!!!! " + dropdownValue);
-            }
-            else
-            {
-                //Debug.LogError("didn't find Dropdown component!!!!!!!!!!!!!!");
-            }
-        }
-        else
-        {
-            //Debug.LogError("didn't find Tag object!!!!!!!!!!!!!!!!!");
-        }
 
         float time = engine.timeCount;
-        if (time > 0)
-        {
+        
+        
 
-            distance = recordedInputs.rowDistanceInput;
-            speedinput = (uint)(distance / (float)time);
-            float speedvalue = (float)speedinput / maxSpeed;
-            switch (dropdownValue)
+
+
+            if (currentRound == 2)
             {
-                case (int)RoundController.RoundType.OnlySpeedChanged:
-                    speedvalue *= SpeedFactor;
-                    break;
-                case (int)RoundController.RoundType.OnlyFrequencyChanged:
-                    freqvalue *= FrequencyFactor;
-                    break;
-                case (int)RoundController.RoundType.OnlyPowerChanged:
-                    torsionvalue *= PowerFactor;
-                    break;
-                case (int)RoundController.RoundType.AllChanged:
-                    torsionvalue *= PowerFactor;
-                    freqvalue *= FrequencyFactor;
-                    speedvalue *= SpeedFactor;
-                    break;
+                Debug.Log("currentRound ========== 2222222222222222  !!!!!!!!!!!!!!!!!!!!!!!!");
+                switch (dropdownValue2)
+                {
+                    case (int)RoundController.RoundType.OnlyFrequencyChanged:
+                        Debug.Log("freq ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        freqvalue *= FrequencyFactor;
+                        break;
+                    case (int)RoundController.RoundType.OnlyPowerChanged:
+                        Debug.Log("power ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        break;
+                    case (int)RoundController.RoundType.AllChanged:
+                        Debug.Log("all ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        freqvalue *= FrequencyFactor;
+                        break;
+                }
             }
+            else if (currentRound == 3)
+            {
+                Debug.Log("currentRound ========== 33333333333  !!!!!!!!!!!!!!!!!!!!!!!!");
+                switch (dropdownValue3)
+                {
+                    case (int)RoundController.RoundType.OnlyFrequencyChanged:
+                        Debug.Log("freq ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        freqvalue *= FrequencyFactor;
+                        break;
+                    case (int)RoundController.RoundType.OnlyPowerChanged:
+                        Debug.Log("power ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        break;
+                    case (int)RoundController.RoundType.AllChanged:
+                        Debug.Log("all ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        freqvalue *= FrequencyFactor;
+                        break;
+                }
+            }
+
+            else if (currentRound == 4)
+            {
+                Debug.Log("currentRound ========== 444444444444444  !!!!!!!!!!!!!!!!!!!!!!!!");
+                switch (dropdownValue4)
+                {
+                    case (int)RoundController.RoundType.OnlyFrequencyChanged:
+                        Debug.Log("freq ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        freqvalue *= FrequencyFactor;
+                        break;
+                    case (int)RoundController.RoundType.OnlyPowerChanged:
+                        Debug.Log("power ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        break;
+                    case (int)RoundController.RoundType.AllChanged:
+                        Debug.Log("all ==========   !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        freqvalue *= FrequencyFactor;
+                        break;
+                }
+            }
+            else if (currentRound == 5)
+            {
+                Debug.Log("currentRound ========== 45555555555555555  !!!!!!!!!!!!!!!!!!!!!!!!");
+                switch (dropdownValue5)
+                {
+                    case (int)RoundController.RoundType.OnlyFrequencyChanged:
+                        Debug.Log("freq ========== 222222222222222  !!!!!!!!!!!!!!!!!!!!!!!!");
+                        freqvalue *= FrequencyFactor;
+                        break;
+                    case (int)RoundController.RoundType.OnlyPowerChanged:
+                        Debug.Log("power ========== 111111111111111  !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        break;
+                    case (int)RoundController.RoundType.AllChanged:
+                        Debug.Log("all ========== 4444444444444444  !!!!!!!!!!!!!!!!!!!!!!!!");
+                        torsionvalue *= PowerFactor;
+                        freqvalue *= FrequencyFactor;
+                        break;
+                }
+            }
+
+
+
+
 
 
             torsionImage.fillAmount = torsionvalue;
             freqImage.fillAmount = freqvalue;
-            speedImage.fillAmount = speedvalue;
+            speedImage.fillAmount = 1;
         }
     }
         
-}
+
