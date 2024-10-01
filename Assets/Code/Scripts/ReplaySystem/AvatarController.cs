@@ -9,6 +9,8 @@ public class AvatarController : MonoBehaviour
     public float standardForceByanimSpeed = 50;
     public float moveSpeedFactor { get; set; }
     public float playerPowerFactor { get; set; }
+    public float avatarSpeed { get; private set; }
+
     public float maxPowerOutput = 150;
     public float forceMultiplier = 5;
     public float dragForce = 0.1f;
@@ -68,6 +70,7 @@ public class AvatarController : MonoBehaviour
 
         // Don't move backwards
         if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
+        avatarSpeed = rb.velocity.x;
 
         // Apply drag force to gradually slow the object down
         rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
