@@ -9,6 +9,10 @@ TagManager:
   - GameEnds
   - PlayerAvatarBody
   - ParticipateID
+  - Round2Config
+  - Round3Config
+  - Round4Config
+  - Round5Config
   layers:
   - Default
   - TransparentFX
