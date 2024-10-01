@@ -29,7 +29,7 @@ public class Dashboard : MonoBehaviour
         float torsionvalue = (float)torsioninput / maxTorsion;
         torsionImage.fillAmount = torsionvalue;
 
-        freqinput = recordedInputs.rowPaceInput;
+        freqinput = recordedInputs.rowSpeedInput;
         float freqvalue = (float)freqinput / maxFreq;
         freqImage.fillAmount = freqvalue;
 

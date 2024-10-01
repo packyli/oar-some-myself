@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float currentForce;
     public float standardForceByanimSpeed = 50;
     public Transform water;
-    // Start is called before the first frame update
+    public float rowSpeed { get; private set; }
     public Text Text_pace;
     public Text Text_dis;
     public Image torsionImage;
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private RowingMachineController rowingMachine;
 
     private static LoggerService logger;
+
 
     private void Awake()
     {
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
+            rowSpeed = rb.velocity.x;
             Text_pace.text = rb.velocity.x.ToString("f2");
 
             float a = rowingMachine.CurrentForce;

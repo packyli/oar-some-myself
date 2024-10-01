@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class InputRecorder : MonoBehaviour
@@ -78,7 +77,8 @@ public class InputRecorder : MonoBehaviour
                 Debug.Log($"Time: {entry.Key}, Inputs: "
                           + $"horizontalInput = {entry.Value.horizontalInput}, "
                           + $"verticalInput = {entry.Value.verticalInput}, "
-                          + $"RowPace = {entry.Value.rowPaceInput}, "
+                          + $"RowPace = {entry.Value.rowSpeedInput}, " +
+                          $"RowFrequency = {entry.Value.rowFrequencyInput},"
                           + $"RowPower = {entry.Value.rowPowerInput}, "
                           + $"RowDistance = {entry.Value.rowDistanceInput}, "
                           + $"ButtonPressed = {entry.Value.buttonPressed}");

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -234,11 +233,11 @@ public class ActorObject : MonoBehaviour
         return new PlayerInputStruct(
             Mathf.Lerp(input1.horizontalInput, input2.horizontalInput, factor),
             Mathf.Lerp(input1.verticalInput, input2.verticalInput, factor),
-            (uint)Mathf.Lerp(input1.rowPaceInput, input2.rowPaceInput, factor),
+            (uint)Mathf.Lerp(input1.rowSpeedInput, input2.rowSpeedInput, factor),
+            (uint)Mathf.Lerp(input1.rowFrequencyInput, input2.rowFrequencyInput, factor),  // Include rowFrequency interpolation
             (uint)Mathf.Lerp(input1.rowPowerInput, input2.rowPowerInput, factor),
             (uint)Mathf.Lerp(input1.rowDistanceInput, input2.rowDistanceInput, factor),
             input1.buttonPressed || input2.buttonPressed  // Preserve true if either input has buttonPressed true
         );
     }
-
 }

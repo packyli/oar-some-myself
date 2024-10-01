@@ -47,6 +47,14 @@ public class ReplayController : MonoBehaviour
 
     public void ResetPlayer()
     {
-        selectedPlayer.GetComponent<ActorObject>().Reset();
+        if (selectedPlayer != null)
+        {
+            selectedPlayer.GetComponent<ActorObject>().Reset();
+        }
+        else
+        {
+            Debug.LogWarning("selectedPlayer is null or has been destroyed.");
+        }
     }
+
 }

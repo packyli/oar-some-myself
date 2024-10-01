@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public struct PlayerInputStruct
+﻿public struct PlayerInputStruct
 {
     public float horizontalInput;
     public float verticalInput;
-    public uint rowPaceInput;
+    public uint rowSpeedInput;
+    public uint rowFrequencyInput;
     public uint rowPowerInput;
     public uint rowDistanceInput;
 
@@ -15,14 +12,16 @@ public struct PlayerInputStruct
     public PlayerInputStruct(
         float horizontalValue,
         float verticalValue,
-        uint rowPaceValue,
+        uint rowSpeedValue,
+        uint rowFrequencyValue,
         uint rowPowerValue,
         uint rowDistanceValue,
         bool buttonValue)
     {
         horizontalInput = horizontalValue;
         verticalInput = verticalValue;
-        rowPaceInput = rowPaceValue;
+        rowSpeedInput = rowSpeedValue;
+        rowFrequencyInput = rowFrequencyValue;
         rowPowerInput = rowPowerValue;
         rowDistanceInput = rowDistanceValue;
         buttonPressed = buttonValue;
