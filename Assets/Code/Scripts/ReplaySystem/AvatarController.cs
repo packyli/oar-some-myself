@@ -74,12 +74,12 @@ public class AvatarController : MonoBehaviour
 
         // Manage the movement of a player and update the position of water elements in the game,
         // to create the illusion of an infinite or continuously scrolling water surface.
-        if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
-        {
-            lastPlayerMoveXPos = transform.position;
-            water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
-            water.GetChild(0).SetAsLastSibling();
-        }
+        //if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
+        //{
+        //    lastPlayerMoveXPos = transform.position;
+        //    water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
+        //    water.GetChild(0).SetAsLastSibling();
+        //}
     }
 
     public void AlterRowPower()

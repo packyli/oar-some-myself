@@ -112,42 +112,42 @@ public class PlayerController : MonoBehaviour
             
 
             Text_dis.text = (transform.position.x - startingPosition.x).ToString("f2");
-            if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
-            {
-                lastPlayerMoveXPos = transform.position;
-                water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
-                water.GetChild(0).SetAsLastSibling();
-            }
+            //if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
+            //{
+            //    lastPlayerMoveXPos = transform.position;
+            //    water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
+            //    water.GetChild(0).SetAsLastSibling();
+            //}
         }
     }
 
     void LogData()
     {
-        // 获取 Engine 实例
+        // ???? Engine ????
         engine = GameObject.FindObjectOfType<Engine>();
 
-        // 获取当前轮次的时间 (timeCount)
+        // ?????????????????? (timeCount)
         int elapsedTime = engine.timeCount;
 
-        // 获取当前系统时间 (Time.time)
-        string systemTime = Time.time.ToString("F2");  // 保留两位小数
+        // ???????????????? (Time.time)
+        string systemTime = Time.time.ToString("F2");  // ????????????
 
-        // 获取 ParticipateID 的 Text 组件
+        // ???? ParticipateID ?? Text ????
         Text participateIDText = GameObject.Find("ParticipateID").GetComponent<Text>();
-        string participateID = participateIDText.text;  // 获取 Text 组件中的文本（数字）
+        string participateID = participateIDText.text;  // ???? Text ????????????????????
 
-        // 获取当前轮次的数据
-        var force = new Power(systemTime, rowingMachine.CurrentForce, false);  // 系统时间作为 Time 列
+        // ??????????????????
+        var force = new Power(systemTime, rowingMachine.CurrentForce, false);  // ???????????? Time ??
         var distance = new Distance(systemTime, transform.position.x - startingPosition.x);
         var rpm = new RPM(systemTime, rowingMachine.MeanRPM, false);
 
-        // 将数据存入 LoggerService 的队列
+        // ?????????? LoggerService ??????
         logger.power.Enqueue(force);
         logger.distance.Enqueue(distance);
         logger.rpm.Enqueue(rpm);
 
-        // 调用 LoggerService 并传递当前轮次和 ParticipateID
-        logger.Log(participateID, engine.currentRound, elapsedTime);  // 调整 ParticipateID 为第一个参数
+        // ???? LoggerService ???????????????? ParticipateID
+        logger.Log(participateID, engine.currentRound, elapsedTime);  // ???? ParticipateID ????????????
     }
 
 
@@ -162,6 +162,10 @@ public class PlayerController : MonoBehaviour
         water.Find("Background0").SetAsFirstSibling();
         water.GetChild(0).transform.localPosition = new Vector3(0, 0, 200);
         water.GetChild(1).transform.localPosition = new Vector3(499, 0, 200);
+        for (int i = water.childCount - 1; i >= 2; i--)
+        {
+            DestroyImmediate(water.GetChild(i).gameObject);
+        }
     }
 
     [Serializable]
