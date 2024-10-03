@@ -119,11 +119,9 @@ public class ActorObject : MonoBehaviour
             if (recordedInputs.buttonPressed)
             {
                 Debug.Log($"Row action triggered at {playbackTimer}, buttonPressed: {recordedInputs.buttonPressed}");
+                objectController.GivenInputs(recordedInputs);
+                objectController.Move();
             }
-
-            objectController.GivenInputs(recordedInputs);
-            objectController.Move();
-
             avatarDashboard.UpdateAvtarBar(recordedInputs);
         }
     }

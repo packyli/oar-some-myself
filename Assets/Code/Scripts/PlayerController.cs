@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Collections.Specialized.BitVector32;
 
 public class PlayerController : MonoBehaviour
 {
@@ -113,58 +109,36 @@ public class PlayerController : MonoBehaviour
             torsionImage.fillAmount = torsionvalue;
             float speedvalue = rb.velocity.x / maxSpeed;
             speedImage.fillAmount = speedvalue;
-            
 
             Text_dis.text = (transform.position.x - startingPosition.x).ToString("f2");
-            //if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
-            //{
-            //    lastPlayerMoveXPos = transform.position;
-            //    water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
-            //    water.GetChild(0).SetAsLastSibling();
-            //}
         }
     }
 
     void LogData()
     {
-
         engine = GameObject.FindObjectOfType<Engine>();
-
         dashboard = GameObject.FindObjectOfType<Dashboard>();
 
-
         int elapsedTime = engine.timeCount;
-
-
         string systemTime = Time.time.ToString("F2");
-
-
-        Text participateIDText = GameObject.Find("ParticipateID").GetComponent<Text>();
-        string participateID = participateIDText.text;
-
-
+        Text participantIDText = GameObject.Find("ParticipantID").GetComponent<Text>();
+        string participantID = participantIDText.text;
         string avatarType = GetAvatarType(engine.currentRound);
-
 
         var force = new Power(systemTime, rowingMachine.CurrentForce, false);
         var distance = new Distance(systemTime, transform.position.x - startingPosition.x);
         var rpm = new RPM(systemTime, rowingMachine.MeanRPM, false);
 
-
         logger.power.Enqueue(force);
         logger.distance.Enqueue(distance);
         logger.rpm.Enqueue(rpm);
-
-
-        logger.Log(participateID, engine.currentRound, elapsedTime, avatarType);
+        logger.Log(participantID, engine.currentRound, elapsedTime, avatarType);
     }
 
 
     string GetAvatarType(int currentRound)
     {
         int value = -1;
-
-
         switch (currentRound)
         {
             case 2:
@@ -184,9 +158,7 @@ public class PlayerController : MonoBehaviour
                 return "None"; 
         }
 
-
         Debug.Log($"Dropdown value for round {currentRound}: {value}");
-
 
         switch (value)
         {
@@ -202,8 +174,6 @@ public class PlayerController : MonoBehaviour
                 return "unknown";
         }
     }
-
-
 
     public void PlayerReset()
     {
@@ -240,7 +210,6 @@ public class PlayerController : MonoBehaviour
             return time + "," + rpm + "," + intervalType;
         }
     }
-
 
     [Serializable]
     public class Power

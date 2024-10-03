@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -17,14 +16,14 @@ public class LoggerService
 
         LOGGER_PATH = Application.persistentDataPath + "/LOGGER_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
-        File.AppendAllText(LOGGER_PATH + GAME_DATA, "ParticipateID,Round,SystemTime,TimeCount,AvatarType,Power,Distance,RPM\n");
+        File.AppendAllText(LOGGER_PATH + GAME_DATA, "participantID,Round,SystemTime,TimeCount,AvatarType,Power,Distance,RPM\n");
 
 
         Debug.Log("CSV file is being saved at: " + LOGGER_PATH);
     }
 
 
-    public void Log(string participateID, int round, int timeCount, string avatarType)
+    public void Log(string participantID, int round, int timeCount, string avatarType)
     {
 
         while (power.Count > 0 && distance.Count > 0 && rpm.Count > 0)
@@ -33,7 +32,7 @@ public class LoggerService
             PlayerController.Distance distanceData = distance.Dequeue();
             PlayerController.RPM rpmData = rpm.Dequeue();
 
-            string logEntry = $"{participateID},{round},{powerData.time},{timeCount},{avatarType},{powerData.power},{distanceData.distance},{rpmData.rpm}\n";
+            string logEntry = $"{participantID},{round},{powerData.time},{timeCount},{avatarType},{powerData.power},{distanceData.distance},{rpmData.rpm}\n";
             File.AppendAllText(LOGGER_PATH + GAME_DATA, logEntry);
         }
     }

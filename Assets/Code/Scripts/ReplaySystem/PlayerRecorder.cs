@@ -71,7 +71,6 @@ public class PlayerRecorder : MonoBehaviour
         rowDistanceValue = 0;
         keyPressed = false;
     }
-
 }
 
 

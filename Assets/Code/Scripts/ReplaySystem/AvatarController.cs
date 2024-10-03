@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AvatarController : MonoBehaviour
@@ -14,7 +12,6 @@ public class AvatarController : MonoBehaviour
     public float maxPowerOutput = 150;
     public float forceMultiplier = 5;
     public float dragForce = 0.1f;
-    public Transform water;
 
     private float horizontalValue;
     private float verticalValue;
@@ -24,7 +21,6 @@ public class AvatarController : MonoBehaviour
     private RowingMachineController rowingMachine;
     private Vector3 startingPosition;
     private Quaternion startingRotation;
-    private Vector3 lastPlayerMoveXPos;
 
     private void Awake()
     {
@@ -39,7 +35,6 @@ public class AvatarController : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0, 0);
         startingPosition = transform.position;
         startingRotation = transform.rotation;
-        lastPlayerMoveXPos = startingPosition;
     }
 
     // Move the game object according to given parameters
@@ -51,7 +46,6 @@ public class AvatarController : MonoBehaviour
             AlterRowPower();
             SpeedUpFoward();
         }
-
     }
 
     public void SpeedUpFoward()
@@ -70,19 +64,11 @@ public class AvatarController : MonoBehaviour
 
         // Don't move backwards
         if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
-        avatarSpeed = rb.velocity.x;
 
         // Apply drag force to gradually slow the object down
         rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
-
-        // Manage the movement of a player and update the position of water elements in the game,
-        // to create the illusion of an infinite or continuously scrolling water surface.
-        //if ((transform.position.x - lastPlayerMoveXPos.x) > 600)
-        //{
-        //    lastPlayerMoveXPos = transform.position;
-        //    water.GetChild(0).transform.position = water.GetChild(1).transform.position + new Vector3(499, 0, 0);
-        //    water.GetChild(0).SetAsLastSibling();
-        //}
+        avatarSpeed = rb.velocity.x;
+        Debug.Log("Current Avatar Speed:"+ avatarSpeed);
     }
 
     public void AlterRowPower()

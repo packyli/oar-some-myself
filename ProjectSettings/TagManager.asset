@@ -13,6 +13,7 @@ TagManager:
   - Round3Config
   - Round4Config
   - Round5Config
+  - ParticipantID
   layers:
   - Default
   - TransparentFX
