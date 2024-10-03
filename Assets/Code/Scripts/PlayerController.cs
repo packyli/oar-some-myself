@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private RowingMachineController rowingMachine;
 
     private static LoggerService logger;
-
+    private Dashboard dashboard;
 
     private void Awake()
     {
@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
         startingPosition = transform.position;
         startingRotation = transform.rotation;
         lastPlayerMoveXPos = startingPosition;
+
+        engine = GameObject.FindObjectOfType<Engine>();
     }
 
     // Update is called once per frame
@@ -125,31 +127,80 @@ public class PlayerController : MonoBehaviour
 
     void LogData()
     {
-        // ???? Engine ????
+
         engine = GameObject.FindObjectOfType<Engine>();
 
-        // ?????????????????? (timeCount)
+        dashboard = GameObject.FindObjectOfType<Dashboard>();
+
+
         int elapsedTime = engine.timeCount;
 
-        // ???????????????? (Time.time)
-        string systemTime = Time.time.ToString("F2");  // ????????????
 
-        // ???? ParticipateID ?? Text ????
+        string systemTime = Time.time.ToString("F2");
+
+
         Text participateIDText = GameObject.Find("ParticipateID").GetComponent<Text>();
-        string participateID = participateIDText.text;  // ???? Text ????????????????????
+        string participateID = participateIDText.text;
 
-        // ??????????????????
-        var force = new Power(systemTime, rowingMachine.CurrentForce, false);  // ???????????? Time ??
+
+        string avatarType = GetAvatarType(engine.currentRound);
+
+
+        var force = new Power(systemTime, rowingMachine.CurrentForce, false);
         var distance = new Distance(systemTime, transform.position.x - startingPosition.x);
         var rpm = new RPM(systemTime, rowingMachine.MeanRPM, false);
 
-        // ?????????? LoggerService ??????
+
         logger.power.Enqueue(force);
         logger.distance.Enqueue(distance);
         logger.rpm.Enqueue(rpm);
 
-        // ???? LoggerService ???????????????? ParticipateID
-        logger.Log(participateID, engine.currentRound, elapsedTime);  // ???? ParticipateID ????????????
+
+        logger.Log(participateID, engine.currentRound, elapsedTime, avatarType);
+    }
+
+
+    string GetAvatarType(int currentRound)
+    {
+        int value = -1;
+
+
+        switch (currentRound)
+        {
+            case 2:
+                value = dashboard.dropdownValue2;
+                break;
+            case 3:
+                value = dashboard.dropdownValue3;
+                break;
+            case 4:
+                value = dashboard.dropdownValue4;
+                break;
+            case 5:
+                value = dashboard.dropdownValue5;
+                break;
+            default:
+                Debug.Log("Current Round is 1 or unknown.");
+                return "None"; 
+        }
+
+
+        Debug.Log($"Dropdown value for round {currentRound}: {value}");
+
+
+        switch (value)
+        {
+            case 0:
+                return "speed";
+            case 1:
+                return "frequency";
+            case 2:
+                return "power";
+            case 3:
+                return "all";
+            default:
+                return "unknown";
+        }
     }
 
 

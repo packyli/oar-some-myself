@@ -17,10 +17,10 @@ public class Dashboard : MonoBehaviour
     public RoundController roundController;
 
     private AvatarController avatarController;
-    private int dropdownValue2;
-    private int dropdownValue3;
-    private int dropdownValue4;
-    private int dropdownValue5;
+    public int dropdownValue2;
+    public int dropdownValue3;
+    public int dropdownValue4;
+    public int dropdownValue5;
 
     // Start is called before the first frame update
     void Start()
