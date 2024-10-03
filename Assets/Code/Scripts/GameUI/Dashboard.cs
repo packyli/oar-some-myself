@@ -3,149 +3,136 @@ using UnityEngine.UI;
 
 public class Dashboard : MonoBehaviour
 {
-    public uint torsioninput = 0;
-    public uint freqinput = 0;
-    public float speedinput = 0;
+    // Inputs
+    public uint torsionInput = 0;
+    public uint frequencyInput = 0;
+    public float speedInput = 0;
     public uint distance = 0;
-    public Image torsionImage;
-    public Image freqImage;
-    public Image speedImage;
-    public float maxTorsion = 150f;
-    public float maxFreq = 60f;
-    public float maxSpeed = 20f;
-    public Engine engine;
-    public RoundController roundController;
 
+    // UI Elements
+    public Image torsionImage;
+    public Image frequencyImage;
+    public Image speedImage;
+
+    // Limits
+    public float maxTorsion = 150f;
+    public float maxFrequency = 60f;
+    public float maxSpeed = 20f;
+
+    // Cached References
+    private Engine engine;
+    private RoundController roundController;
     private AvatarController avatarController;
+
+    // Dropdowns and Values
+    private Dropdown dropdownRound2;
+    private Dropdown dropdownRound3;
+    private Dropdown dropdownRound4;
+    private Dropdown dropdownRound5;
+
     public int dropdownValue2;
     public int dropdownValue3;
     public int dropdownValue4;
     public int dropdownValue5;
 
-    // Start is called before the first frame update
     void Start()
     {
+        // Cache references
         engine = FindObjectOfType<Engine>();
         roundController = FindObjectOfType<RoundController>();
         avatarController = FindObjectOfType<AvatarController>();
+
+        // Cache dropdowns
+        CacheDropdowns();
     }
-    
+
     void Update()
     {
-        GameObject dropdownObject2 = GameObject.FindGameObjectWithTag("Round2Config");
-        GameObject dropdownObject3 = GameObject.FindGameObjectWithTag("Round3Config");
-        GameObject dropdownObject4 = GameObject.FindGameObjectWithTag("Round4Config");
-        GameObject dropdownObject5 = GameObject.FindGameObjectWithTag("Round5Config");
+        UpdateDropdownValues();
+    }
 
-        if (dropdownObject2 != null && dropdownObject3 != null && dropdownObject4 != null && dropdownObject5 != null)
-        {
-            Dropdown dropdown2 = dropdownObject2.GetComponent<Dropdown>();
-            Dropdown dropdown3 = dropdownObject3.GetComponent<Dropdown>();
-            Dropdown dropdown4 = dropdownObject4.GetComponent<Dropdown>();
-            Dropdown dropdown5 = dropdownObject5.GetComponent<Dropdown>();
+    private void CacheDropdowns()
+    {
+        dropdownRound2 = GetDropdownByTag("Round2Config");
+        dropdownRound3 = GetDropdownByTag("Round3Config");
+        dropdownRound4 = GetDropdownByTag("Round4Config");
+        dropdownRound5 = GetDropdownByTag("Round5Config");
 
-            if (dropdown2 != null && dropdown3 != null && dropdown4 != null && dropdown5 != null)
-            {
-                dropdownValue2 = dropdown2.value;
-                dropdownValue3 = dropdown3.value;
-                dropdownValue4 = dropdown4.value;
-                dropdownValue5 = dropdown5.value;  
-            }
-            else
-            {
-                Debug.LogError("Dropdown not found or is null!");
-            }
-        }
-        else
+        // Log any missing dropdowns
+        if (dropdownRound2 == null || dropdownRound3 == null || dropdownRound4 == null || dropdownRound5 == null)
         {
-            Debug.LogError("GameObject with specified tag Round2Config/Round3Config/Round4Config/Round5Config not found!");
+            Debug.LogError("One or more dropdown objects are missing!");
         }
+    }
+
+    private Dropdown GetDropdownByTag(string tag)
+    {
+        GameObject dropdownObject = GameObject.FindGameObjectWithTag(tag);
+        return dropdownObject != null ? dropdownObject.GetComponent<Dropdown>() : null;
+    }
+
+    private void UpdateDropdownValues()
+    {
+        if (dropdownRound2 != null) dropdownValue2 = dropdownRound2.value;
+        if (dropdownRound3 != null) dropdownValue3 = dropdownRound3.value;
+        if (dropdownRound4 != null) dropdownValue4 = dropdownRound4.value;
+        if (dropdownRound5 != null) dropdownValue5 = dropdownRound5.value;
     }
 
     public void UpdateAvtarBar(PlayerInputStruct recordedInputs)
     {
         int currentRound = engine.currentRound;
-        torsioninput = recordedInputs.rowPowerInput;
-        float torsionvalue = (float)torsioninput / maxTorsion;
 
-        freqinput = recordedInputs.rowFrequencyInput;
-        float freqvalue = (float)freqinput / maxFreq;
+        // Convert inputs into UI percentages
+        float torsionValue = (float)recordedInputs.rowPowerInput / maxTorsion;
+        float frequencyValue = (float)recordedInputs.rowFrequencyInput / maxFrequency;
+        float speedValue = avatarController.avatarSpeed / maxSpeed;
 
-        speedinput = avatarController.avatarSpeed;
-        float speedvalue = (float)speedinput / maxSpeed;
+        // Apply round-specific adjustments
+        ApplyRoundAdjustments(ref torsionValue, ref frequencyValue, currentRound);
 
-        float PowerFactor = roundController.PowerFactor;
-        float FrequencyFactor = roundController.FrequencyFactor;
-        float SpeedFactor = roundController.SpeedFactor;
-        float time = engine.timeCount;
+        // Update UI elements
+        UpdateUI(torsionValue, frequencyValue, speedValue);
+    }
 
-        if (currentRound == 2)
+    private void ApplyRoundAdjustments(ref float torsionValue, ref float frequencyValue, int currentRound)
+    {
+        float powerFactor = roundController.PowerFactor;
+        float frequencyFactor = roundController.FrequencyFactor;
+
+        int dropdownValue = GetDropdownValueForRound(currentRound);
+
+        if (dropdownValue == (int)RoundController.RoundType.OnlyFrequencyChanged)
         {
-            switch (dropdownValue2)
-            {
-                case (int)RoundController.RoundType.OnlyFrequencyChanged:
-                    freqvalue *= FrequencyFactor;
-                    break;
-                case (int)RoundController.RoundType.OnlyPowerChanged:
-                    torsionvalue *= PowerFactor;
-                    break;
-                case (int)RoundController.RoundType.AllChanged:
-                    torsionvalue *= PowerFactor;
-                    freqvalue *= FrequencyFactor;
-                    break;
-            }
+            frequencyValue *= frequencyFactor;
         }
-        else if (currentRound == 3)
+        else if (dropdownValue == (int)RoundController.RoundType.OnlyPowerChanged)
         {
-            switch (dropdownValue3)
-            {
-                case (int)RoundController.RoundType.OnlyFrequencyChanged:
-                    freqvalue *= FrequencyFactor;
-                    break;
-                case (int)RoundController.RoundType.OnlyPowerChanged:
-                    torsionvalue *= PowerFactor;
-                    break;
-                case (int)RoundController.RoundType.AllChanged:
-                    torsionvalue *= PowerFactor;
-                    freqvalue *= FrequencyFactor;
-                    break;
-            }
+            torsionValue *= powerFactor;
         }
-        else if (currentRound == 4)
+        else if (dropdownValue == (int)RoundController.RoundType.AllChanged)
         {
-            switch (dropdownValue4)
-            {
-                case (int)RoundController.RoundType.OnlyFrequencyChanged:
-                    freqvalue *= FrequencyFactor;
-                    break;
-                case (int)RoundController.RoundType.OnlyPowerChanged:
-                    torsionvalue *= PowerFactor;
-                    break;
-                case (int)RoundController.RoundType.AllChanged:
-                    torsionvalue *= PowerFactor;
-                    freqvalue *= FrequencyFactor;
-                    break;
-            }
+            torsionValue *= powerFactor;
+            frequencyValue *= frequencyFactor;
         }
-        else if (currentRound == 5)
-        {
-            switch (dropdownValue5)
-            {
-                case (int)RoundController.RoundType.OnlyFrequencyChanged:
-                    freqvalue *= FrequencyFactor;
-                    break;
-                case (int)RoundController.RoundType.OnlyPowerChanged:
-                    torsionvalue *= PowerFactor;
-                    break;
-                case (int)RoundController.RoundType.AllChanged:
-                    torsionvalue *= PowerFactor;
-                    freqvalue *= FrequencyFactor;
-                    break;
-            }
-        }
+    }
 
-        torsionImage.fillAmount = torsionvalue;
-        freqImage.fillAmount = freqvalue;
-        speedImage.fillAmount = speedvalue;
+    private int GetDropdownValueForRound(int round)
+    {
+        switch (round)
+        {
+            case 2: return dropdownValue2;
+            case 3: return dropdownValue3;
+            case 4: return dropdownValue4;
+            case 5: return dropdownValue5;
+            default: return -1;
+        }
+    }
+
+    private void UpdateUI(float torsionValue, float frequencyValue, float speedValue)
+    {
+        torsionImage.fillAmount = torsionValue;
+        frequencyImage.fillAmount = frequencyValue;
+        speedImage.fillAmount = speedValue;
     }
 }

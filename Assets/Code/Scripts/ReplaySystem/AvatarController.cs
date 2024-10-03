@@ -68,14 +68,14 @@ public class AvatarController : MonoBehaviour
         // Apply drag force to gradually slow the object down
         rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
         avatarSpeed = rb.velocity.x;
-        Debug.Log("Current Avatar Speed:"+ avatarSpeed);
+        //Debug.Log("Current Avatar Speed: "+ avatarSpeed);
     }
 
     public void AlterRowPower()
     {
         _animator.SetTrigger("IsRow");
         _animator.speed = playerPowerFactor * currentForce / standardForceByanimSpeed;
-        Debug.Log("Rowing Player Avatar's current animator speed: " + _animator.speed);
+        //Debug.Log("Rowing Player Avatar's current animator speed: " + _animator.speed);
     }
 
 

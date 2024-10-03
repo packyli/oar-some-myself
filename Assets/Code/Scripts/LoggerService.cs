@@ -16,7 +16,7 @@ public class LoggerService
 
         LOGGER_PATH = Application.persistentDataPath + "/LOGGER_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
-        File.AppendAllText(LOGGER_PATH + GAME_DATA, "participantID,Round,SystemTime,TimeCount,AvatarType,Power,Distance,RPM\n");
+        File.AppendAllText(LOGGER_PATH + GAME_DATA, "ParticipantID,Round,SystemTime,TimeCount,AvatarConditionImproved,Power,Distance,RPM\n");
 
 
         Debug.Log("CSV file is being saved at: " + LOGGER_PATH);

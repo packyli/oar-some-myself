@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.SetTrigger("IsRow");
                 _animator.speed = rowingMachine.CurrentForce / standardForceByanimSpeed;
-                Debug.Log("Rowing Player's current animator speed: " + _animator.speed);
+                //Debug.Log("Rowing Player's current animator speed: " + _animator.speed);
 
                 rowingMachine.WaitingRow = false;
 
@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
 
             rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
             rowSpeed = rb.velocity.x;
+            //Debug.Log("Current Player Speed: " + rowSpeed);
             Text_pace.text = rb.velocity.x.ToString("f2");
 
             float a = rowingMachine.CurrentForce;
