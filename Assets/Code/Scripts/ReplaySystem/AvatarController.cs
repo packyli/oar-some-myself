@@ -6,7 +6,7 @@ public class AvatarController : MonoBehaviour
     public float standardForceByanimSpeed = 50;
     public float moveSpeedFactor { get; set; }
     public float playerPowerFactor { get; set; }
-    public float avatarSpeed { get; private set; }
+    //public float avatarSpeed { get; private set; }
 
     public float maxPowerOutput = 150;
     public float forceMultiplier = 5;
@@ -60,7 +60,7 @@ public class AvatarController : MonoBehaviour
             Debug.Log("Current proportionate speed-up force to the avatar: " + currentForce * forceMultiplier * moveSpeedFactor / maxPowerOutput);
         }
 
-        avatarSpeed = rb.velocity.x;
+        //avatarSpeed = rb.velocity.x;
         //Debug.Log("Current Avatar Speed: "+ avatarSpeed);
     }
 

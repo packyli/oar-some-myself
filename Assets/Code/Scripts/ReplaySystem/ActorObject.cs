@@ -20,6 +20,7 @@ public class ActorObject : MonoBehaviour
     public float frequencyFactor { get; set; }
     public float baseDrag = 0.1f;
     public float dragFactor = 0.05f;
+    public float avatarSpeed { get; private set; }
 
     // 1. Player Input
     private PlayerRecorder playerInput;
@@ -133,7 +134,9 @@ public class ActorObject : MonoBehaviour
             // Apply drag force to gradually slow the object down
             //rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
 
-            rb.drag = baseDrag + rb.velocity.magnitude * dragFactor;
+            //rb.drag = baseDrag + rb.velocity.magnitude * dragFactor;
+            avatarSpeed = rb.velocity.x;
+            //Debug.Log("Current Avatar Speed: "+ avatarSpeed);
 
             avatarDashboard.UpdateAvtarBar(recordedInputs);
         }

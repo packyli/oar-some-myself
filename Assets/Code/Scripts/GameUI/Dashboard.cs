@@ -22,7 +22,7 @@ public class Dashboard : MonoBehaviour
     // Cached References
     private Engine engine;
     private RoundController roundController;
-    private AvatarController avatarController;
+    private ActorObject ActorObject;
 
     // Dropdowns and Values
     private Dropdown dropdownRound2;
@@ -40,7 +40,7 @@ public class Dashboard : MonoBehaviour
         // Cache references
         engine = FindObjectOfType<Engine>();
         roundController = FindObjectOfType<RoundController>();
-        avatarController = FindObjectOfType<AvatarController>();
+        ActorObject = FindObjectOfType<ActorObject>();
 
         // Cache dropdowns
         CacheDropdowns();
@@ -86,7 +86,7 @@ public class Dashboard : MonoBehaviour
         // Convert inputs into UI percentages
         float torsionValue = (float)recordedInputs.rowPowerInput / maxTorsion;
         float frequencyValue = (float)recordedInputs.rowFrequencyInput / maxFrequency;
-        float speedValue = avatarController.avatarSpeed / maxSpeed;
+        float speedValue = ActorObject.avatarSpeed / maxSpeed;
 
         // Apply round-specific adjustments
         ApplyRoundAdjustments(ref torsionValue, ref frequencyValue, currentRound);

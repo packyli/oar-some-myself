@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public Image _startPanel;
     public float maxPowerOutput;
     public float forceMultiplier;
-    public float dragForce;
+    //public float dragForce;
     public Animator _animator;
     public float currentForce;
     public float standardForceByanimSpeed = 50;
@@ -87,20 +87,19 @@ public class PlayerController : MonoBehaviour
                 {
                     rb.velocity = new Vector3(rb.velocity.x, 0, 0);
                 }
-                //currentForce += (Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput).x;
+                
                 rb.AddForce(Vector3.right * rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput, ForceMode.Impulse);
 
                 if (!rowingMachine.DEBUG)
                 {
                     Debug.Log("Current proportionate force: " + rowingMachine.CurrentForce * forceMultiplier / maxPowerOutput);
                 }
-
             }
 
             // Don't move backwards
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
-            rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
+            //rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
             rowSpeed = rb.velocity.x;
             //Debug.Log("Current Player Speed: " + rowSpeed);
             Text_pace.text = rb.velocity.x.ToString("f2");
@@ -159,7 +158,7 @@ public class PlayerController : MonoBehaviour
                 return "None"; 
         }
 
-        Debug.Log($"Dropdown value for round {currentRound}: {value}");
+        //Debug.Log($"Dropdown value for round {currentRound}: {value}");
 
         switch (value)
         {
