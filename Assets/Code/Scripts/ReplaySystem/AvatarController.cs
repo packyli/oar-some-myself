@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class AvatarController : MonoBehaviour
@@ -11,7 +10,6 @@ public class AvatarController : MonoBehaviour
 
     public float maxPowerOutput = 150;
     public float forceMultiplier = 5;
-    public float dragForce = 0.1f;
 
     private float horizontalValue;
     private float verticalValue;
@@ -65,8 +63,6 @@ public class AvatarController : MonoBehaviour
         // Don't move backwards
         if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
-        // Apply drag force to gradually slow the object down
-        rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
         avatarSpeed = rb.velocity.x;
         //Debug.Log("Current Avatar Speed: "+ avatarSpeed);
     }

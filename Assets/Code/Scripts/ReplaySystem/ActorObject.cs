@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ public class ActorObject : MonoBehaviour
     // UI Timer
     public Text timerText;
 
+    public float dragForce = 0.1f;
     public float frequencyFactor { get; set; }
 
     // 1. Player Input
@@ -30,7 +32,7 @@ public class ActorObject : MonoBehaviour
     private bool newPlayback = false;
     private float timer;
     private float playbackTimer;
-
+    private Rigidbody rb;
     private Dashboard avatarDashboard;
 
     // Start is called before the first frame update
@@ -41,7 +43,7 @@ public class ActorObject : MonoBehaviour
         objectController = GetComponent<AvatarController>();
         inputRec = GetComponent<InputRecorder>();
         avatarDashboard = GameObject.FindObjectOfType<Dashboard>();
-
+        rb = GetComponent<Rigidbody>();
 
         if (playerInput == null)
         {
@@ -122,6 +124,13 @@ public class ActorObject : MonoBehaviour
                 objectController.GivenInputs(recordedInputs);
                 objectController.Move();
             }
+
+            // Don't move backwards
+            if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
+
+            // Apply drag force to gradually slow the object down
+            rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
+
             avatarDashboard.UpdateAvtarBar(recordedInputs);
         }
     }
