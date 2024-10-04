@@ -16,8 +16,10 @@ public class ActorObject : MonoBehaviour
     // UI Timer
     public Text timerText;
 
-    public float dragForce = 0.1f;
+    //public float dragForce = 0.1f;
     public float frequencyFactor { get; set; }
+    public float baseDrag = 0.1f;
+    public float dragFactor = 0.05f;
 
     // 1. Player Input
     private PlayerRecorder playerInput;
@@ -129,7 +131,9 @@ public class ActorObject : MonoBehaviour
             if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
 
             // Apply drag force to gradually slow the object down
-            rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
+            //rb.AddForce(-dragForce * Math.Abs(rb.velocity.x), 0, 0);
+
+            rb.drag = baseDrag + rb.velocity.magnitude * dragFactor;
 
             avatarDashboard.UpdateAvtarBar(recordedInputs);
         }

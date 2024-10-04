@@ -60,9 +60,6 @@ public class AvatarController : MonoBehaviour
             Debug.Log("Current proportionate speed-up force to the avatar: " + currentForce * forceMultiplier * moveSpeedFactor / maxPowerOutput);
         }
 
-        // Don't move backwards
-        if (rb.velocity.x <= 0) rb.velocity = new Vector3(0, rb.velocity.y);
-
         avatarSpeed = rb.velocity.x;
         //Debug.Log("Current Avatar Speed: "+ avatarSpeed);
     }
