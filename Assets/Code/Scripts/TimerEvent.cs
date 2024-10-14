@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
 using UnityJIS;
 
@@ -7,15 +6,9 @@ public class TimerEvent
 {
     public string m_timerName = "";
 
-    /// <summary>
-    /// 重复调用次数,-1代表一直调用
-    /// </summary>
     public int m_repeatCount   = 0;
     public int m_currentRepeat = 0;
 
-    /// <summary>
-    /// 是否忽略时间缩放
-    /// </summary>
     public bool m_isIgnoreTimeScale = false;
     public TimerCallBack m_callBack;
     public object[] m_objs;
