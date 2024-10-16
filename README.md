@@ -17,7 +17,7 @@ The VR exergame requires the connection with HMD Meta Quest Pro and Concept2 Row
 
 Usage:
 1. Launch the project Oar-some Myself via Unity 2022.3.39f1
-2. Run the source code on Unity
+2. Run the source code on Unity (Go to Level->Scenes->SampleScence and click it then click 'Play' on Unity Window)
 3. For debug mode, no need to connect with Meta Quest Pro or Concept2 Rowing Machine
 4. For play mode, connect your PC to Concept2 Rowing Machine via the cable and connect the PC to Meta Quest Pro (Might meed "reset view" on Meat Quest Pro)
 5. Press the key 'S' to kick off the game (from Round 1, and ends with Round5)
